@@ -5,6 +5,9 @@ import json
 from groq import Groq
 from rag_compliance import ComplianceRAG
 
+# Get the project root directory
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 rag_system = ComplianceRAG()
 
@@ -38,6 +41,10 @@ def score_chunk(chunk_text):
     return json.loads(response.choices[0].message.content)
 
 def run_average_audit(file_path):
+    # Handle both absolute and relative paths
+    if not os.path.isabs(file_path):
+        file_path = os.path.join(PROJECT_ROOT, file_path)
+    
     with open(file_path, "r") as f:
         lines = f.readlines()
 
@@ -104,7 +111,7 @@ def run_average_audit(file_path):
     df = pd.concat([df, final_row], ignore_index=True)
     
     # Save to CSV
-    csv_filename = "../data/audit_results.csv"
+    csv_filename = os.path.join(PROJECT_ROOT, "data", "audit_results.csv")
     df.to_csv(csv_filename, index=False)
     print(f"\nCSV file saved: {csv_filename}")
     
@@ -116,4 +123,4 @@ def run_average_audit(file_path):
     
     return df
 
-run_average_audit("../data/3_labeled_dialogue.txt")
+run_average_audit("data/3_labeled_dialogue.txt")

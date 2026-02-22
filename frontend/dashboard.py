@@ -3,6 +3,12 @@ import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
 from datetime import datetime
+import os
+import subprocess
+import sys
+
+# Get the project root directory
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 st.set_page_config(page_title="Compliance Audit Dashboard", layout="wide", initial_sidebar_state="expanded")
 
@@ -284,17 +290,45 @@ st.markdown("""
 
 st.title("📊 Compliance Audit Dashboard")
 
+# Initialize audit results if not present
+def initialize_audit_results():
+    csv_path = os.path.join(PROJECT_ROOT, "data", "audit_results.csv")
+    if not os.path.exists(csv_path):
+        with st.spinner("Generating audit results... This may take a moment."):
+            scoring_script = os.path.join(PROJECT_ROOT, "backend", "scoring_engine.py")
+            try:
+                # Run the scoring engine to generate audit_results.csv
+                result = subprocess.run(
+                    [sys.executable, scoring_script],
+                    cwd=PROJECT_ROOT,
+                    capture_output=True,
+                    text=True,
+                    timeout=300
+                )
+                if result.returncode != 0:
+                    st.error(f"Failed to generate audit results: {result.stderr}")
+                    return False
+            except Exception as e:
+                st.error(f"Error generating audit results: {str(e)}")
+                return False
+    return True
+
 # Load the CSV file
 @st.cache_data
 def load_data():
     try:
-        df = pd.read_csv("../data/audit_results.csv")
+        csv_path = os.path.join(PROJECT_ROOT, "data", "audit_results.csv")
+        df = pd.read_csv(csv_path)
         return df
     except FileNotFoundError:
         st.error("audit_results.csv not found. Please run scoring_engine.py first.")
         return None
 
-df = load_data()
+# Initialize audit results on first run, then load
+if initialize_audit_results():
+    df = load_data()
+else:
+    df = None
 
 if df is not None:
     # Separate final row from chunk data
