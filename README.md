@@ -46,7 +46,7 @@ PINECONE_API_KEY=your_pinecone_api_key
 
 ## Usage
 
-### 1. Upload Policies (Optional)
+### 1. Upload Policies 
 ```bash
 python backend/upload_policies.py
 ```
@@ -74,8 +74,7 @@ This starts the interactive compliance audit dashboard at http://localhost:8501
 ## API Keys Required
 
 - **Groq API**: For LLM-based compliance scoring
-- **Pinecone API**: For vector database (optional - system uses mock embeddings for development)
-
+- **Pinecone API**: For vector database 
 ## Notes
 
 - The system uses mock embeddings by default to avoid external model download issues
