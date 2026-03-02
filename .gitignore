@@ -53,3 +53,16 @@ Thumbs.db
 # Cache
 *.cache
 .cache/
+
+# Data and Temporary Files
+data/1_raw_transcript.txt
+data/2_cleaned_transcript.txt
+data/3_labeled_dialogue.txt
+data/extracted_email.json
+data/uploads/*
+!data/uploads/.gitkeep
+data/user_data/
+data/audit_results.csv
+
+# Debugging
+repro_error.py

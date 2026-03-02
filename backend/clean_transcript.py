@@ -3,20 +3,40 @@ from groq import Groq
 from dotenv import load_dotenv
 
 load_dotenv()
-client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
-# 1. LOAD: Read the cleaned text from the Notebook
-with open("2_cleaned_transcript.txt", "r") as f:
-    content = f.read()
+def label_speakers(transcript_text):
+    client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+    
+    prompt = f"""
+    You are an expert at diarizing customer service transcripts. 
+    Below is a raw transcript of a customer service call. 
+    Separate it into a dialogue between an 'Agent' and a 'Customer'.
+    
+    Rules:
+    1. Identify who is speaking based on the context:
+       - Agent: Asks "How can I help?", provides solutions, uses professional language, identifies as company rep.
+       - Customer: Explains issues, asks for help, provides personal/account details.
+    2. Format EXACTLY as:
+       Agent: [text]
+       Customer: [text]
+    3. CRITICAL: Each person's turn MUST be on a SINGLE LINE. Do not use newlines within a single speaker's turn.
+    4. Do not add any preamble, commentary, or summary. Only the labeled dialogue.
+    5. Maintain original wording as much as possible.
+    
+    Transcript:
+    {transcript_text}
+    """
+    
+    response = client.chat.completions.create(
+        model="llama-3.3-70b-versatile",
+        messages=[{"role": "user", "content": prompt}]
+    )
+    return response.choices[0].message.content.strip()
 
-# 2. PROCESS: Ask Groq to label speakers
-response = client.chat.completions.create(
-    model="llama-3.3-70b-versatile",
-    messages=[{"role": "user", "content": f"Format this into a dialogue with 'Agent:' and 'Customer:':\n\n{content}"}]
-)
-
-# 3. SAVE: The final labeled dialogue
-with open("3_labeled_dialogue.txt", "w") as f:
-    f.write(response.choices[0].message.content)
-
-print("Step 3 Complete: 3_labeled_dialogue.txt created.")
+if __name__ == "__main__":
+    with open("1_raw_transcript.txt", "r", encoding="utf-8") as f:
+        content = f.read()
+    labeled = label_speakers(content)
+    with open("3_labeled_dialogue.txt", "w", encoding="utf-8") as f:
+        f.write(labeled)
+    print("Step 3 Complete: 3_labeled_dialogue.txt created.")

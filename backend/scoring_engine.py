@@ -40,13 +40,75 @@ def score_chunk(chunk_text):
     )
     return json.loads(response.choices[0].message.content)
 
-def run_average_audit(file_path):
+def score_email(email_text, agent_name="Unknown Agent"):
+    # Retrieve specific rules for email context
+    relevant_rules = rag_system.get_rules_for_context(email_text)
+    
+    prompt = f"""
+    Evaluate this customer service email based on these specific rules:
+    {relevant_rules}
+
+    Email Content:
+    {email_text}
+
+    Return JSON ONLY:
+    {{
+      "empathy": 1-100,
+      "professionalism": 1-100,
+      "compliance": "Pass/Fail/Warn",
+      "reason": "Explain violation if any",
+      "violations": ["List specific policy violations"],
+      "suggestions": ["List specific improvement suggestions"]
+    }}
+    """
+    
+    response = client.chat.completions.create(
+        model="llama-3.3-70b-versatile",
+        messages=[{"role": "user", "content": prompt}],
+        response_format={ "type": "json_object" }
+    )
+    result = json.loads(response.choices[0].message.content)
+    
+    # Save to CSV
+    csv_path = os.path.join(PROJECT_ROOT, "data", "audit_results.csv")
+    column_order = ['Chunk', 'empathy', 'professionalism', 'compliance', 'reason', 'violations', 'suggestions', 'evaluation', 'Agent']
+    
+    new_row = {
+        'Chunk': 'EMAIL', # Identifying this as an email audit
+        'empathy': result['empathy'],
+        'professionalism': result['professionalism'],
+        'compliance': result['compliance'],
+        'reason': result['reason'],
+        'violations': "|".join(result['violations']),
+        'suggestions': "|".join(result['suggestions']),
+        'evaluation': json.dumps(result),
+        'Agent': agent_name
+    }
+    
+    # Append to cumulative results
+    df = pd.DataFrame([new_row])[column_order]
+    
+    # Also add a FINAL row for this email to make it consistent with the dashboard's "FINAL" logic
+    final_row = new_row.copy()
+    final_row['Chunk'] = 'FINAL'
+    final_df = pd.DataFrame([final_row])[column_order]
+    
+    full_df = pd.concat([df, final_df])
+    
+    if os.path.exists(csv_path):
+        full_df.to_csv(csv_path, mode='a', header=False, index=False)
+    else:
+        full_df.to_csv(csv_path, index=False)
+        
+    return result
+
+def run_average_audit(file_path, agent_name="Unknown Agent"):
     # Handle both absolute and relative paths
     if not os.path.isabs(file_path):
         file_path = os.path.join(PROJECT_ROOT, file_path)
     
-    with open(file_path, "r") as f:
-        lines = f.readlines()
+    with open(file_path, "r", encoding="utf-8") as f:
+        lines = [line.strip() for line in f.readlines() if line.strip().startswith(('Agent:', 'Customer:'))]
 
     # Process in chunks of 5 turns
     chunk_results = []
@@ -57,8 +119,9 @@ def run_average_audit(file_path):
     # Create DataFrame with chunk results
     df = pd.DataFrame(chunk_results)
     
-    # Add chunk numbers for clarity
+    # Add Chunk and Agent columns in correct order
     df.insert(0, 'Chunk', range(1, len(df) + 1))
+    df['Agent'] = agent_name
     
     # Convert violations and suggestions lists to strings for CSV
     if 'violations' in df.columns:
@@ -70,13 +133,14 @@ def run_average_audit(file_path):
     final_empathy = df['empathy'].mean()
     final_professionalism = df['professionalism'].mean()
     
-    # Determine overall compliance
-    if "Fail" in df['compliance'].values:
-        overall_compliance = "FAIL"
-    elif "Warn" in df['compliance'].values:
+    # Determine overall compliance based on average scores
+    avg_score = (final_empathy + final_professionalism) / 2
+    if avg_score >= 80:
+        overall_compliance = "PASS"
+    elif avg_score >= 60:
         overall_compliance = "WARN"
     else:
-        overall_compliance = "PASS"
+        overall_compliance = "FAIL"
     
     # Aggregate violations and suggestions
     all_violations = []
@@ -96,31 +160,58 @@ def run_average_audit(file_path):
     all_violations = list(set([v for v in all_violations if v]))
     all_suggestions = list(set([s for s in all_suggestions if s]))
     
+    # Reorder columns before saving
+    column_order = ['Chunk', 'empathy', 'professionalism', 'compliance', 'reason', 'violations', 'suggestions', 'evaluation', 'Agent']
+    
     # Create final results row
-    final_row = pd.DataFrame([{
+    final_row_data = {
+        'Agent': agent_name,
         'Chunk': 'FINAL',
         'empathy': final_empathy,
         'professionalism': final_professionalism,
         'compliance': overall_compliance,
         'reason': 'Final average scores',
         'violations': ' | '.join(all_violations) if all_violations else 'None',
-        'suggestions': ' | '.join(all_suggestions) if all_suggestions else 'None'
-    }])
+        'suggestions': ' | '.join(all_suggestions) if all_suggestions else 'None',
+        'evaluation': None
+    }
+    final_df = pd.DataFrame([final_row_data])
     
-    # Append final row to dataframe
-    df = pd.concat([df, final_row], ignore_index=True)
+    # Ensure chunks df has all columns
+    for col in column_order:
+        if col not in df.columns:
+            df[col] = None
+            
+    # Standardize chunk df and concat with final
+    df = pd.concat([df[column_order], final_df[column_order]], ignore_index=True)
     
-    # Save to CSV
+    # Save to CSV (Cumulative)
     csv_filename = os.path.join(PROJECT_ROOT, "data", "audit_results.csv")
+    if os.path.exists(csv_filename):
+        existing_df = pd.read_csv(csv_filename)
+        # Standardize existing_df to avoid concat issues
+        for col in column_order:
+            if col not in existing_df.columns:
+                existing_df[col] = None
+        df = pd.concat([existing_df[column_order], df], ignore_index=True)
+        
     df.to_csv(csv_filename, index=False)
     print(f"\nCSV file saved: {csv_filename}")
     
     # Print results
-    print("\n--- FINAL AUDIT RESULTS ---")
+    print(f"\n--- FINAL AUDIT RESULTS FOR {agent_name} ---")
     print(f"Final Empathy Score: {final_empathy}")
     print(f"Final Professionalism Score: {final_professionalism}")
     print(f"Overall Compliance: {overall_compliance}")
     
     return df
 
-run_average_audit("data/3_labeled_dialogue.txt")
+if __name__ == "__main__":
+    import sys
+    agent = sys.argv[2] if len(sys.argv) > 2 else "Sample Agent"
+    target_file = os.path.join(PROJECT_ROOT, "data", "3_labeled_dialogue.txt")
+    
+    if os.path.exists(target_file):
+        run_average_audit(target_file, agent)
+    else:
+        print(f"Error: {target_file} not found. Please run the full pipeline or process an email/audio first.")

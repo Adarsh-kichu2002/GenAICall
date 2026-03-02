@@ -1,82 +1,99 @@
-# Compliance Audit System
+# 📊 Compliance Audit & Agent Performance Dashboard
 
-A comprehensive compliance audit dashboard for analyzing agent performance against policy violations.
+A state-of-the-art, AI-powered system designed for quality assurance, compliance monitoring, and automated agent coaching. This platform analyzes both **Audio Conversations** and **Email Interactions** to provide actionable insights for customer service teams.
 
-## Project Structure
+---
 
-```
-d:\customer\
-├── frontend/                    # Streamlit Dashboard Application
-│   ├── dashboard.py            # Main dashboard application (loads from ../data/audit_results.csv)
-│   └── .streamlit/
-│       └── config.toml         # Streamlit dark mode configuration
-│
-├── backend/                     # Backend Processing Scripts
-│   ├── rag_compliance.py       # Compliance RAG system with mock embeddings
-│   ├── scoring_engine.py       # Score chunks against policies (reads from ../data/3_labeled_dialogue.txt)
-│   ├── upload_policies.py      # Upload policies to Pinecone (reads from ../data/policy.txt)
-│   ├── clean_transcript.py     # Transcript cleaning utility
-│   ├── transcribe.py           # Transcription utility
-│   └── Transcript_Preprocessing.ipynb  # Jupyter notebook for preprocessing
-│
-├── data/                        # Input Data and Output Files
-│   ├── 1_raw_transcript.txt    # Original transcript
-│   ├── 2_cleaned_transcript.txt # Cleaned transcript
-│   ├── 3_labeled_dialogue.txt  # Labeled dialogue for scoring
-│   ├── policy.txt              # Compliance policies
-│   └── audit_results.csv       # Generated audit scores (output)
-│
-├── requirements.txt             # Python dependencies
-├── .env                         # Environment variables (API keys)
-└── README.md                    # This file
-```
+## 🚀 Key Features
 
-## Installation
+### 🎙️ AI Audio Auditing
+- **Instant Transcription**: Powered by **Groq Whisper API** (whisper-large-v3), reducing transcription time from minutes to seconds.
+- **Smart Diarization**: Automatically labels 'Agent' vs 'Customer' dialogue using advanced LLM reasoning.
+- **Chunk-wise Scoring**: Detailed analysis of empathy and professionalism throughout the entire conversation.
 
-1. Install dependencies:
+### 📧 Stealth Email Analysis
+- **Secure Browser Sync**: Uses **Playwright with Stealth Mode** to safely extract email content while bypassing "insecure browser" blocks.
+- **Persistent Sessions**: Saves your login state locally in `data/user_data`, so you only need to sign in to Gmail once.
+- **Multimodal Compliance**: Applies the same rigorous policy checks used for audio directly to agent emails.
+
+### 🎯 Advanced Analytics & Coaching
+- **Leaderboard**: Maps agents on a 2D performance matrix: *Stars (High E / High P)*, *Robots*, *Charmers*, and *Risks*.
+- **AI Coaching Roadmap**: Automatically clusters team-wide mistakes and generates a personalized training plan using Groq Llama-3.
+- **RAG-Powered Compliance**: Uses a Vector DB (Pinecone) to retrieve relevant company policies for every single audit.
+
+---
+
+## 🛠️ Technology Stack
+
+- **Frontend**: Streamlit (Advanced Dark Mode UI)
+- **AI Core**: Groq Cloud (Llama-3 & Whisper-v3)
+- **Vector DB**: Pinecone (Compliance Policy RAG)
+- **Automation**: Playwright (with Stealth & Persistent Context)
+- **Analysis**: Pandas & Plotly (Real-time data visualization)
+
+---
+
+## ⚙️ Installation & Setup
+
+### 1. Requirements
+Ensure you have **Python 3.10+** installed.
+
 ```bash
+# Install dependencies
 pip install -r requirements.txt
+
+# Setup Playwright browsers
+playwright install chromium
 ```
 
-2. Set up environment variables in `.env`:
-```
-GROQ_API_KEY=your_groq_api_key
-PINECONE_API_KEY=your_pinecone_api_key
+### 2. Configure Environment
+Create a `.env` file in the root directory:
+```env
+GROQ_API_KEY=gsk_your_key_here
+PINECONE_API_KEY=pcsk_your_key_here
 ```
 
-## Usage
-
-### 1. Upload Policies 
+### 3. Initialize Policies (Optional)
+Upload your company policies from `data/policy.txt` to Pinecone:
 ```bash
 python backend/upload_policies.py
 ```
-This uploads compliance policies from `data/policy.txt` to Pinecone for RAG retrieval.
 
-### 2. Score Chunks
+---
+
+## 🖥️ Usage Guide
+
+### Launching the Dashboard
 ```bash
-python backend/scoring_engine.py
+streamlit run frontend/dashboard.py
 ```
-This processes `data/3_labeled_dialogue.txt`, scores each chunk against policies, and generates `data/audit_results.csv`.
 
-### 3. Run Dashboard
-```bash
-cd frontend
-streamlit run dashboard.py
-```
-This starts the interactive compliance audit dashboard at http://localhost:8501
+### Audio Audit Workflow
+1. Enter the Agent's Name in the sidebar.
+2. Upload an **MP3** file.
+3. Click "Process & Analyze". The system will transcribe (via Groq), label speakers, and score.
+4. Results appear instantly on the **Home** and **Reports** pages.
 
-## Dashboard Features
+### Email Audit Workflow
+1. Navigate to the **Email Analysis** page.
+2. Click "Launch Email Browser" to log in to Gmail.
+3. Click "Extract & Score from Browser" while viewing an email.
+4. The system will securely "scrape" the email and run a full compliance audit.
 
-- **Home Page**: Overall compliance scores, top violations, and improvement suggestions
-- **Reports Page**: Trend analysis, compliance distribution pie chart, and detailed results table
-- **Chunk-wise Analysis**: Per-chunk scores with specific violations and suggestions
+---
 
-## API Keys Required
+## 📂 Project Structure
 
-- **Groq API**: For LLM-based compliance scoring
-- **Pinecone API**: For vector database 
-## Notes
+- `frontend/`: Streamlit UI and dashboard logic.
+- `backend/`: Core AI logic (transcription, scoring, stealth extraction).
+- `data/`: Local storage for policies and transient data (session-safe).
+- `requirements.txt`: Project dependencies including `playwright-stealth` and `groq`.
 
-- The system uses mock embeddings by default to avoid external model download issues
-- All file paths are relative and should work when running scripts from the appropriate directories
-- The dashboard auto-generates charts and exports CSV results for further analysis
+---
+
+## 🔒 Privacy & Security
+- **Email Sessions**: Login data is stored locally in `data/user_data/` and is purposefully excluded from Git tracking via `.gitignore`.
+- **API Security**: Keys are managed through `.env` and never hardcoded in the repository.
+
+---
+*Built with ❤️ for High-Performance Quality Assurance.*
