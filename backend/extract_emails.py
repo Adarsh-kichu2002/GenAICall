@@ -13,19 +13,36 @@ def extract_selected_emails():
     """
     user_data_dir = os.path.join(PROJECT_ROOT, "data", "user_data")
     os.makedirs(user_data_dir, exist_ok=True)
+    
+    # Try to remove lock files if they exist (common cause of exit code 21)
+    lock_file = os.path.join(user_data_dir, "SingletonLock")
+    if os.path.exists(lock_file):
+        try:
+            os.remove(lock_file)
+        except:
+            pass
 
     with sync_playwright() as p:
-        # Launch with persistent context to save login state
-        # We use common arguments to look like a regular browser
-        context = p.chromium.launch_persistent_context(
-            user_data_dir,
-            headless=False,
-            args=[
-                "--disable-blink-features=AutomationControlled",
-                "--no-sandbox"
-            ],
-            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
-        )
+        try:
+            # Launch with persistent context to save login state
+            # We use common arguments to look like a regular browser
+            context = p.chromium.launch_persistent_context(
+                user_data_dir,
+                headless=False,
+                args=[
+                    "--disable-blink-features=AutomationControlled",
+                    "--no-sandbox",
+                    "--disable-dev-shm-usage",
+                    "--disable-gpu",
+                ],
+                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+                slow_mo=500 # Slow down actions a bit for stability
+            )
+        except Exception as e:
+            print(f"CRITICAL: Failed to launch browser: {e}")
+            print("This often happens if another Chrome instance is using the same profile.")
+            print(f"Please try closing any other open Chrome windows and try again.")
+            return
         
         page = context.pages[0] if context.pages else context.new_page()
         

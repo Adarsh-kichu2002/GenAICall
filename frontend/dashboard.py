@@ -7,6 +7,7 @@ import os
 import subprocess
 import sys
 import json
+import importlib
 
 # Get the project root directory and add to path early
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -17,10 +18,18 @@ if BACKEND_DIR not in sys.path:
     sys.path.append(BACKEND_DIR)
 
 from dotenv import load_dotenv
-from backend.scoring_engine import score_email
+from backend.redaction import redact_pii
 
 # Load environment variables from .env
 load_dotenv()
+
+# Force reload of scoring engine to ensure updated signature is used
+import backend.scoring_engine
+importlib.reload(backend.scoring_engine)
+from backend.scoring_engine import score_email
+
+# DEBUG: Check scoring_engine location
+print(f"DEBUG: scoring_engine loaded from {backend.scoring_engine.__file__}")
 
 try:
     from fpdf import FPDF
@@ -303,6 +312,44 @@ st.markdown("""
         div {
             color: #f0f2f6 !important;
         }
+
+        /* Bold Pastel Metric Boxes */
+        .metric-container {
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            margin: 5px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            border: 2px solid rgba(255,255,255,0.1);
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .metric-title {
+            font-size: 0.9rem;
+            font-weight: 800;
+            margin-bottom: 5px;
+            color: #161b22 !important;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #161b22 !important;
+        }
+        .metric-sub {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #161b22 !important;
+            opacity: 0.8;
+        }
+        .pastel-blue { background-color: #a2d2ff !important; }
+        .pastel-green { background-color: #b9fbc0 !important; }
+        .pastel-yellow { background-color: #fbf8cc !important; }
+        .pastel-purple { background-color: #e2c2ff !important; }
+        .pastel-orange { background-color: #ffccac !important; }
     </style>
 """, unsafe_allow_html=True)
 
@@ -324,7 +371,7 @@ def initialize_audit_results():
     csv_path = os.path.join(PROJECT_ROOT, "data", "audit_results.csv")
     if not os.path.exists(csv_path):
         # Create an empty CSV with correct headers instead of failing
-        column_order = ['Chunk', 'empathy', 'professionalism', 'compliance', 'reason', 'violations', 'suggestions', 'evaluation', 'Agent']
+        column_order = ['Chunk', 'empathy', 'professionalism', 'compliance', 'reason', 'violations', 'suggestions', 'evaluation', 'Agent', 'masking_score', 'masking_analysis', 'Source', 'Transcript', 'Filename']
         df = pd.DataFrame(columns=column_order)
         df.to_csv(csv_path, index=False)
         st.info("No previous audit data found. Starting with a fresh dashboard.")
@@ -340,6 +387,34 @@ def load_data():
         if df is not None:
             df['empathy'] = pd.to_numeric(df['empathy'], errors='coerce')
             df['professionalism'] = pd.to_numeric(df['professionalism'], errors='coerce')
+            # Add new columns if missing in older CSV files
+            if 'masking_score' not in df.columns:
+                df['masking_score'] = 100
+            # Fill missing Transcripts/Source with resilience logic
+            def clean_transcript(t):
+                if pd.isna(t) or str(t).strip() == "" or str(t).lower() == "nan" or str(t).lower() == "none":
+                    return "Historical data: Transcript not saved."
+                return t
+            
+            if 'Transcript' not in df.columns:
+                df['Transcript'] = "Historical data: Transcript not saved."
+            else:
+                df['Transcript'] = df['Transcript'].apply(clean_transcript)
+                
+            if 'Source' not in df.columns:
+                df['Source'] = 'Audio'
+            else:
+                # Intelligent historical source tagging for any remaining NaNs or Audio-defaults
+                df.loc[df['Chunk'] == 'EMAIL', 'Source'] = 'Email'
+                df.loc[(df['Chunk'] == 'FINAL') & (df['Source'].isna()) & (df['reason'] != 'Final average scores'), 'Source'] = 'Email'
+                df['Source'] = df['Source'].fillna('Audio')
+            
+            if 'Filename' not in df.columns:
+                df['Filename'] = "N/A"
+            else:
+                df['Filename'] = df['Filename'].fillna("N/A")
+                
+            df['masking_score'] = pd.to_numeric(df['masking_score'], errors='coerce').fillna(100)
             # Filter out any rows that failed conversion (highly unlikely with the fixed backend)
             df = df.dropna(subset=['empathy', 'professionalism'])
         return df
@@ -359,7 +434,7 @@ else:
 if df is not None:
     # Sidebar navigation
     st.sidebar.title("Navigation")
-    page = st.sidebar.radio("Select a page:", ["🏠 Home", "📊 Reports", "📧 Email Analysis", "⚖️ Comparison"])
+    page = st.sidebar.radio("Select a page:", ["🏠 Home", "📊 Reports", "📧 Email Analysis", "🕵️ Agent Wise Analysis"])
     
     st.sidebar.markdown("---")
     
@@ -403,6 +478,10 @@ if df is not None:
     # Input for Agent Name
     audio_agent = st.sidebar.text_input("Assign Agent Name for Audio:", placeholder="e.g. John Doe")
     
+    # Language Selection
+    languages = ["Auto-detect", "Hindi", "Spanish", "French", "English"]
+    selected_language = st.sidebar.selectbox("Select Language:", languages)
+    
     uploaded_file = st.sidebar.file_uploader("Upload Agent-Customer Conversation (MP3)", type=["mp3"])
     
     if uploaded_file is not None:
@@ -432,8 +511,9 @@ if df is not None:
                         progress_bar.progress(20)
                         
                         # Run the pipeline as a subprocess
+                        lang_arg = selected_language if selected_language != "Auto-detect" else "auto-detect"
                         process = subprocess.Popen(
-                            [sys.executable, pipeline_script, temp_path, audio_agent],
+                            [sys.executable, pipeline_script, temp_path, audio_agent, lang_arg],
                             cwd=PROJECT_ROOT,
                             stdout=subprocess.PIPE,
                             stderr=subprocess.PIPE,
@@ -474,7 +554,8 @@ if df is not None:
     
     st.markdown("---")
     
-    # ========================= HOME PAGE =========================
+            
+    # ========================= FOOTER =========================
     if page == "🏠 Home":
         st.header("Welcome to Team Performance Dashboard")
         
@@ -483,14 +564,18 @@ if df is not None:
         team_final = df[df['Chunk'] == 'FINAL']
         col1, col2, col3 = st.columns(3)
         
+        # Calculate averages safely
+        avg_empathy = team_final['empathy'].mean() if not team_final.empty else 0.0
+        avg_prof = team_final['professionalism'].mean() if not team_final.empty else 0.0
+        total_audits = len(team_final)
+        
         with col1:
-            st.metric(label="Team Empathy Score", value=f"{team_final['empathy'].mean():.2f}")
+            st.metric(label="Team Empathy Score", value=f"{avg_empathy:.2f}")
         
         with col2:
-            st.metric(label="Team Professionalism Score", value=f"{team_final['professionalism'].mean():.2f}")
+            st.metric(label="Team Professionalism Score", value=f"{avg_prof:.2f}")
         
         with col3:
-            total_audits = len(team_final)
             st.metric(label="Total Conversations Audited", value=total_audits)
         
         st.markdown("---")
@@ -873,7 +958,8 @@ if df is not None:
                                 
                                 # Process for scoring
                                 with st.spinner("Scoring extracted content..."):
-                                    scoring_result = score_email(email_data['body'], agent_name=email_agent)
+                                    filename_label = f"Email_Browser_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+                                    scoring_result = score_email(email_data['body'], agent_name=email_agent, filename=filename_label)
                                     print(f"DEBUG (extracted): violations={type(scoring_result.get('violations'))}, suggestions={type(scoring_result.get('suggestions'))}")
                                 
                                 # Display Results (same as manual)
@@ -923,7 +1009,8 @@ if df is not None:
                 else:
                     with st.spinner("Analyzing email..."):
                         try:
-                            result = score_email(pasted_content, agent_name=email_agent)
+                            filename_label = f"Email_Manual_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+                            result = score_email(pasted_content, agent_name=email_agent, filename=filename_label)
                             print(f"DEBUG (pasted): violations={type(result.get('violations'))}, suggestions={type(result.get('suggestions'))}")
                             st.success("Email Analysis Complete!")
                             
@@ -951,89 +1038,146 @@ if df is not None:
                                     else:
                                         st.write("None")
                                 
-                            # Rerun to update global stats
-                            if st.button("🔄 Update Dashboard Stats"):
-                                st.cache_data.clear()
-                                st.rerun()
+                            # Rerun to update global stats automatically
+                            st.cache_data.clear()
+                            st.rerun()
                                 
                         except Exception as e:
                             st.exception(e)
     
-    # ========================= COMPARISON PAGE =========================
-    elif page == "⚖️ Comparison":
-        st.header("Agent-Wise Comparison & Violation Analysis")
+    # ========================= AGENT WISE ANALYSIS PAGE =========================
+    elif page == "🕵️ Agent Wise Analysis":
+        st.header("🕵️ Agent Wise Performance Analysis")
+        
+        # Ensure we have the absolute latest data from disk
+        st.cache_data.clear()
+        df = load_data()
+        agents = sorted(df['Agent'].unique()) if df is not None else []
         
         if len(agents) < 1:
-            st.warning("Please upload at least one conversation to see comparisons.")
+            st.warning("Please upload at least one conversation to see analysis.")
         else:
-            col1, col2 = st.columns(2)
-            with col1:
-                agent_a = st.selectbox("Select Agent A:", agents, index=0)
-            with col2:
-                agent_b = st.selectbox("Select Agent B:", agents, index=min(1, len(agents)-1))
+            selected_agent = st.selectbox("Select Agent for Deep-Dive Analysis:", agents)
             
-            a_data = df[(df['Agent'] == agent_a) & (df['Chunk'] == 'FINAL')]
-            b_data = df[(df['Agent'] == agent_b) & (df['Chunk'] == 'FINAL')]
+            # Aggregate all FINAL data for this agent
+            agent_all_data = df[df['Agent'] == selected_agent]
+            agent_final_data = agent_all_data[agent_all_data['Chunk'] == 'FINAL']
             
-            if a_data.empty or b_data.empty:
-                st.warning("No final scores found for one or both of the selected agents. Please ensure they have been audited.")
-                st.stop()
-
-            a_final = a_data.iloc[0]
-            b_final = b_data.iloc[0]
-            
-            st.markdown("---")
-            
-            # Metric Comparison
-            c1, c2, c3 = st.columns(3)
-            with c1:
-                st.write(f"**Empathy**")
-                st.write(f"{agent_a}: {a_final['empathy']:.2f}")
-                st.write(f"{agent_b}: {b_final['empathy']:.2f}")
-            with c2:
-                st.write(f"**Professionalism**")
-                st.write(f"{agent_a}: {a_final['professionalism']:.2f}")
-                st.write(f"{agent_b}: {b_final['professionalism']:.2f}")
-            with c3:
-                st.write(f"**Compliance**")
-                st.write(f"{agent_a}: {a_final['compliance']}")
-                st.write(f"{agent_b}: {b_final['compliance']}")
-            
-            st.markdown("---")
-            
-            # Violations Comparison
-            v_col1, v_col2 = st.columns(2)
-            with v_col1:
-                st.subheader(f"⚠️ {agent_a} Top 5 Violations")
-                v_a = [v.strip() for v in str(a_final['violations']).split('|') if v.strip() and v.strip() != "None"]
-                if v_a:
-                    for v in v_a[:5]: st.error(v)
-                else: st.success("Clear!")
+            if agent_final_data.empty:
+                st.warning(f"No completed audits found for {selected_agent}.")
+            else:
+                # Calculations
+                avg_empathy = agent_final_data['empathy'].mean()
+                avg_prof = agent_final_data['professionalism'].mean()
                 
-            with v_col2:
-                st.subheader(f"⚠️ {agent_b} Top 5 Violations")
-                v_b = [v.strip() for v in str(b_final['violations']).split('|') if v.strip() and v.strip() != "None"]
-                if v_b:
-                    for v in v_b[:5]: st.error(v)
-                else: st.success("Clear!")
-
-            st.markdown("---")
-            
-            # Improvement Suggestions Comparison
-            s_col1, s_col2 = st.columns(2)
-            with s_col1:
-                st.subheader(f"💡 {agent_a} Top 5 Suggestions")
-                s_a = [s.strip() for s in str(a_final['suggestions']).split('|') if s.strip() and s.strip() != "None"]
-                if s_a:
-                    for s in s_a[:5]: st.info(s)
-                else: st.write("No suggestions.")
+                # Conversation Counts
+                total_audio = len(agent_final_data[agent_final_data['Source'] == 'Audio'])
+                total_email = len(agent_final_data[agent_final_data['Source'] == 'Email'])
+                total_convos = total_audio + total_email
                 
-            with s_col2:
-                st.subheader(f"💡 {agent_b} Top 5 Suggestions")
-                s_b = [s.strip() for s in str(b_final['suggestions']).split('|') if s.strip() and s.strip() != "None"]
-                if s_b:
-                    for s in s_b[:5]: st.info(s)
-                else: st.write("No suggestions.")
+                # Overall Compliance Logic
+                overall_avg = (avg_empathy + avg_prof) / 2
+                comp_status = "PASS" if overall_avg >= 80 else "WARN" if overall_avg >= 60 else "FAIL"
+                comp_color = "pastel-green" if comp_status == "PASS" else "pastel-yellow" if comp_status == "WARN" else "pastel-purple"
+                
+                # Masking Count Logic
+                total_masking_count = 0
+                import re
+                for m_analysis in agent_final_data.get('masking_analysis', []):
+                    if pd.notna(m_analysis):
+                        # Extract all numbers and sum them
+                        nums = re.findall(r'\d+', str(m_analysis))
+                        total_masking_count += sum(int(n) for n in nums)
+
+                # UI Display: Bold Pastel Boxes
+                st.markdown("---")
+                m_col1, m_col2, m_col3, m_col4, m_col5 = st.columns(5)
+                
+                with m_col1:
+                    st.markdown(f"""<div class="metric-container pastel-blue">
+                        <div class="metric-title">Overall Empathy</div>
+                        <div class="metric-value">{avg_empathy:.1f}</div>
+                    </div>""", unsafe_allow_html=True)
+                
+                with m_col2:
+                    st.markdown(f"""<div class="metric-container pastel-green">
+                        <div class="metric-title">Professionalism</div>
+                        <div class="metric-value">{avg_prof:.1f}</div>
+                    </div>""", unsafe_allow_html=True)
+                
+                with m_col3:
+                    st.markdown(f"""<div class="metric-container {comp_color}">
+                        <div class="metric-title">Compliance</div>
+                        <div class="metric-value">{comp_status}</div>
+                    </div>""", unsafe_allow_html=True)
+                
+                with m_col4:
+                    st.markdown(f"""<div class="metric-container pastel-purple">
+                        <div class="metric-title">Total Masking</div>
+                        <div class="metric-value">{total_masking_count}</div>
+                    </div>""", unsafe_allow_html=True)
+                
+                with m_col5:
+                    st.markdown(f"""<div class="metric-container pastel-orange">
+                        <div class="metric-title">Total Conversations</div>
+                        <div class="metric-value">{total_convos}</div>
+                        <div class="metric-sub">Audio: {total_audio} | Email: {total_email}</div>
+                    </div>""", unsafe_allow_html=True)
+
+                st.markdown("---")
+                
+                v_col1, v_col2 = st.columns(2)
+                from collections import Counter
+                
+                with v_col1:
+                    st.subheader("🚨 Top 5 Major Violations")
+                    all_violations = []
+                    for v_str in agent_final_data['violations']:
+                        if pd.notna(v_str) and v_str != "None":
+                            all_violations.extend([v.strip() for v in str(v_str).split('|')])
+                    
+                    if all_violations:
+                        # Count frequencies to get "Major" points
+                        counts = Counter(all_violations)
+                        top_5 = counts.most_common(5)
+                        for v, count in top_5:
+                            st.error(f"• **{v}** ({count} occurrences)")
+                    else:
+                        st.success("No violations recorded for this agent.")
+
+                with v_col2:
+                    st.subheader("💡 Top 5 Coaching Suggestions")
+                    all_suggestions = []
+                    for s_str in agent_final_data['suggestions']:
+                        if pd.notna(s_str) and s_str != "None":
+                            all_suggestions.extend([s.strip() for s in str(s_str).split('|')])
+                    
+                    if all_suggestions:
+                        # Count frequencies to get "Major" points
+                        counts = Counter(all_suggestions)
+                        top_5 = counts.most_common(5)
+                        for s, count in top_5:
+                            st.info(f"• **{s}** ({count} occurrences)")
+                    else:
+                        st.write("No coaching suggestions available.")
+                
+                # Masked Transcript History
+                st.markdown("---")
+                st.subheader("📜 Masked Conversation History")
+                
+                # Show most recent interactions first
+                recent_interactions = agent_final_data.sort_index(ascending=False).head(10)
+                
+                for idx, row in recent_interactions.iterrows():
+                    source_emoji = "📞" if row['Source'] == 'Audio' else "📧"
+                    status_emoji = "✅" if row['compliance'] == "PASS" else "⚠️" if row['compliance'] == "WARN" else "❌"
+                    
+                    with st.expander(f"{source_emoji} {row['Source']} Analysis | Outcome: {row['compliance']} {status_emoji}"):
+                        st.markdown(f"**Empathy**: {row['empathy']:.1f} | **Professionalism**: {row['professionalism']:.1f}")
+                        st.markdown("---")
+                        st.code(row.get('Transcript', 'No transcript available.'), language='text')
+                        st.markdown("---")
+                        st.caption(f"🛡️ {row.get('masking_analysis', 'No PII detected.')}")
     
     st.sidebar.markdown("---")
     st.sidebar.info("Dashboard Version 2.1\nLast Updated: " + datetime.now().strftime('%Y-%m-%d %H:%M:%S'))

@@ -1,1 +1,561 @@
-Chunk,empathy,professionalism,compliance,reason,violations,suggestions,evaluation,Agent
+Chunk,empathy,professionalism,compliance,reason,violations,suggestions,evaluation,Agent,masking_score,masking_analysis,Source,Transcript,Filename
+1,80.0,90.0,Pass,No violation found in the given conversation snippet,,Repeat the customer's concern to ensure understanding | Provide a clear explanation of the next steps in the verification process,,Agent_01,100,Masked 1 Credit Card Number(s) | Masked 7 Name(s),Audio,"Agent: Good afternoon. Thank you for calling Secure Bank Customer Support. My name is Ria. How may I assist you today?
+Customer: Hi, Ria. My name is [NAME REDACTED]. I'm calling regarding a suspicious transaction on my credit card.
+Agent: I'm sorry to hear that, sir. I'll help you with that. Before we proceed, I need to verify your identity. Could you please confirm your registered mobile number?
+Customer: Yes. It's 9876543210.
+Agent: Thank you. And your registered email address?
+Customer: It's [NAME REDACTED].[NAME REDACTED] at gmail.com.
+Agent: Got it. For additional verification, may I have the last four digits of your [NAME REDACTED] number?
+Customer: Sure. It's 4582. The full Aadhaar number is 458273912245.
+Agent: Thank you for the verification. Now, could you tell me the last four digits of your credit card?
+Customer: Yes. The card number is [CARD REDACTED]. [NAME REDACTED] date is August 27th and CVV is 429.
+Agent: Thank you Please note for security reasons never share your CVV with anyone I check the transaction now
+Customer: Okay
+Agent: I see a transaction of 14 rupees made on Amazon on 2nd March Is that the one you referring to
+Customer: Yes I didn make that purchase
+Agent: Understood. I'll block your current card immediately. Would you like to apply for a replacement card to your registered address?
+Customer: Yes, please. My address is 24 Lakeview Road, T. Nagar, Chennai, [NAME REDACTED], 60017.
+Agent: Thank you. Also, could you confirm your bank account number linked to this card?
+Customer: Yes, it's 1-234-567-89012, and the IFSC code is SBIN0000456.
+Agent: Thank you for confirming. I'm now initiating the card block request. You will receive an OTP on your registered mobile number. Please share the OTP to proceed.
+Customer: I've received it. The OTP is 673921.
+Agent: Thank you. Your card has been successfully blocked. A new card will be delivered within five to seven working days.
+Customer: Thank you so much.
+Agent: You're welcome, Mr. [NAME REDACTED]. Is there anything else I can assist you with?
+Customer: No, that's all.
+Agent: Thank you for calling SecureBank. Have a great day.",ElevenLabs_Untitled_project.mp3
+2,20.0,80.0,Fail,"Sensitive customer information such as Aadhaar number, credit card number, and CVV were shared in the conversation, violating data protection policies.",Sharing of personally identifiable information (PII) | Sharing of sensitive financial information | Non-compliance with data protection regulations,Avoid requesting sensitive customer information | Use secure methods for collecting and storing customer data | Ensure agent training on data protection policies and procedures,,Agent_01,100,Masked 1 Credit Card Number(s) | Masked 7 Name(s),Audio,"Agent: Good afternoon. Thank you for calling Secure Bank Customer Support. My name is Ria. How may I assist you today?
+Customer: Hi, Ria. My name is [NAME REDACTED]. I'm calling regarding a suspicious transaction on my credit card.
+Agent: I'm sorry to hear that, sir. I'll help you with that. Before we proceed, I need to verify your identity. Could you please confirm your registered mobile number?
+Customer: Yes. It's 9876543210.
+Agent: Thank you. And your registered email address?
+Customer: It's [NAME REDACTED].[NAME REDACTED] at gmail.com.
+Agent: Got it. For additional verification, may I have the last four digits of your [NAME REDACTED] number?
+Customer: Sure. It's 4582. The full Aadhaar number is 458273912245.
+Agent: Thank you for the verification. Now, could you tell me the last four digits of your credit card?
+Customer: Yes. The card number is [CARD REDACTED]. [NAME REDACTED] date is August 27th and CVV is 429.
+Agent: Thank you Please note for security reasons never share your CVV with anyone I check the transaction now
+Customer: Okay
+Agent: I see a transaction of 14 rupees made on Amazon on 2nd March Is that the one you referring to
+Customer: Yes I didn make that purchase
+Agent: Understood. I'll block your current card immediately. Would you like to apply for a replacement card to your registered address?
+Customer: Yes, please. My address is 24 Lakeview Road, T. Nagar, Chennai, [NAME REDACTED], 60017.
+Agent: Thank you. Also, could you confirm your bank account number linked to this card?
+Customer: Yes, it's 1-234-567-89012, and the IFSC code is SBIN0000456.
+Agent: Thank you for confirming. I'm now initiating the card block request. You will receive an OTP on your registered mobile number. Please share the OTP to proceed.
+Customer: I've received it. The OTP is 673921.
+Agent: Thank you. Your card has been successfully blocked. A new card will be delivered within five to seven working days.
+Customer: Thank you so much.
+Agent: You're welcome, Mr. [NAME REDACTED]. Is there anything else I can assist you with?
+Customer: No, that's all.
+Agent: Thank you for calling SecureBank. Have a great day.",ElevenLabs_Untitled_project.mp3
+3,80.0,90.0,Pass,No major compliance issues found,,Consider asking for more details about the transaction to verify the customer's claim | Provide a clear explanation of the replacement card process and any associated fees,,Agent_01,100,Masked 1 Credit Card Number(s) | Masked 7 Name(s),Audio,"Agent: Good afternoon. Thank you for calling Secure Bank Customer Support. My name is Ria. How may I assist you today?
+Customer: Hi, Ria. My name is [NAME REDACTED]. I'm calling regarding a suspicious transaction on my credit card.
+Agent: I'm sorry to hear that, sir. I'll help you with that. Before we proceed, I need to verify your identity. Could you please confirm your registered mobile number?
+Customer: Yes. It's 9876543210.
+Agent: Thank you. And your registered email address?
+Customer: It's [NAME REDACTED].[NAME REDACTED] at gmail.com.
+Agent: Got it. For additional verification, may I have the last four digits of your [NAME REDACTED] number?
+Customer: Sure. It's 4582. The full Aadhaar number is 458273912245.
+Agent: Thank you for the verification. Now, could you tell me the last four digits of your credit card?
+Customer: Yes. The card number is [CARD REDACTED]. [NAME REDACTED] date is August 27th and CVV is 429.
+Agent: Thank you Please note for security reasons never share your CVV with anyone I check the transaction now
+Customer: Okay
+Agent: I see a transaction of 14 rupees made on Amazon on 2nd March Is that the one you referring to
+Customer: Yes I didn make that purchase
+Agent: Understood. I'll block your current card immediately. Would you like to apply for a replacement card to your registered address?
+Customer: Yes, please. My address is 24 Lakeview Road, T. Nagar, Chennai, [NAME REDACTED], 60017.
+Agent: Thank you. Also, could you confirm your bank account number linked to this card?
+Customer: Yes, it's 1-234-567-89012, and the IFSC code is SBIN0000456.
+Agent: Thank you for confirming. I'm now initiating the card block request. You will receive an OTP on your registered mobile number. Please share the OTP to proceed.
+Customer: I've received it. The OTP is 673921.
+Agent: Thank you. Your card has been successfully blocked. A new card will be delivered within five to seven working days.
+Customer: Thank you so much.
+Agent: You're welcome, Mr. [NAME REDACTED]. Is there anything else I can assist you with?
+Customer: No, that's all.
+Agent: Thank you for calling SecureBank. Have a great day.",ElevenLabs_Untitled_project.mp3
+4,80.0,90.0,Fail,"The agent requested and the customer shared sensitive information such as their bank account number and IFSC code, which could be a potential PCI-DSS violation.",PCI-DSS violation: Sharing of sensitive card information | Potential data breach risk,Use secure methods for exchanging sensitive information | Mask or redact sensitive information to protect customer data,,Agent_01,100,Masked 1 Credit Card Number(s) | Masked 7 Name(s),Audio,"Agent: Good afternoon. Thank you for calling Secure Bank Customer Support. My name is Ria. How may I assist you today?
+Customer: Hi, Ria. My name is [NAME REDACTED]. I'm calling regarding a suspicious transaction on my credit card.
+Agent: I'm sorry to hear that, sir. I'll help you with that. Before we proceed, I need to verify your identity. Could you please confirm your registered mobile number?
+Customer: Yes. It's 9876543210.
+Agent: Thank you. And your registered email address?
+Customer: It's [NAME REDACTED].[NAME REDACTED] at gmail.com.
+Agent: Got it. For additional verification, may I have the last four digits of your [NAME REDACTED] number?
+Customer: Sure. It's 4582. The full Aadhaar number is 458273912245.
+Agent: Thank you for the verification. Now, could you tell me the last four digits of your credit card?
+Customer: Yes. The card number is [CARD REDACTED]. [NAME REDACTED] date is August 27th and CVV is 429.
+Agent: Thank you Please note for security reasons never share your CVV with anyone I check the transaction now
+Customer: Okay
+Agent: I see a transaction of 14 rupees made on Amazon on 2nd March Is that the one you referring to
+Customer: Yes I didn make that purchase
+Agent: Understood. I'll block your current card immediately. Would you like to apply for a replacement card to your registered address?
+Customer: Yes, please. My address is 24 Lakeview Road, T. Nagar, Chennai, [NAME REDACTED], 60017.
+Agent: Thank you. Also, could you confirm your bank account number linked to this card?
+Customer: Yes, it's 1-234-567-89012, and the IFSC code is SBIN0000456.
+Agent: Thank you for confirming. I'm now initiating the card block request. You will receive an OTP on your registered mobile number. Please share the OTP to proceed.
+Customer: I've received it. The OTP is 673921.
+Agent: Thank you. Your card has been successfully blocked. A new card will be delivered within five to seven working days.
+Customer: Thank you so much.
+Agent: You're welcome, Mr. [NAME REDACTED]. Is there anything else I can assist you with?
+Customer: No, that's all.
+Agent: Thank you for calling SecureBank. Have a great day.",ElevenLabs_Untitled_project.mp3
+5,80.0,95.0,Pass,No violations found in the conversation,,"Consider providing a reference number for the blocked card | Offer additional assistance or services, such as card activation or account management",,Agent_01,100,Masked 1 Credit Card Number(s) | Masked 7 Name(s),Audio,"Agent: Good afternoon. Thank you for calling Secure Bank Customer Support. My name is Ria. How may I assist you today?
+Customer: Hi, Ria. My name is [NAME REDACTED]. I'm calling regarding a suspicious transaction on my credit card.
+Agent: I'm sorry to hear that, sir. I'll help you with that. Before we proceed, I need to verify your identity. Could you please confirm your registered mobile number?
+Customer: Yes. It's 9876543210.
+Agent: Thank you. And your registered email address?
+Customer: It's [NAME REDACTED].[NAME REDACTED] at gmail.com.
+Agent: Got it. For additional verification, may I have the last four digits of your [NAME REDACTED] number?
+Customer: Sure. It's 4582. The full Aadhaar number is 458273912245.
+Agent: Thank you for the verification. Now, could you tell me the last four digits of your credit card?
+Customer: Yes. The card number is [CARD REDACTED]. [NAME REDACTED] date is August 27th and CVV is 429.
+Agent: Thank you Please note for security reasons never share your CVV with anyone I check the transaction now
+Customer: Okay
+Agent: I see a transaction of 14 rupees made on Amazon on 2nd March Is that the one you referring to
+Customer: Yes I didn make that purchase
+Agent: Understood. I'll block your current card immediately. Would you like to apply for a replacement card to your registered address?
+Customer: Yes, please. My address is 24 Lakeview Road, T. Nagar, Chennai, [NAME REDACTED], 60017.
+Agent: Thank you. Also, could you confirm your bank account number linked to this card?
+Customer: Yes, it's 1-234-567-89012, and the IFSC code is SBIN0000456.
+Agent: Thank you for confirming. I'm now initiating the card block request. You will receive an OTP on your registered mobile number. Please share the OTP to proceed.
+Customer: I've received it. The OTP is 673921.
+Agent: Thank you. Your card has been successfully blocked. A new card will be delivered within five to seven working days.
+Customer: Thank you so much.
+Agent: You're welcome, Mr. [NAME REDACTED]. Is there anything else I can assist you with?
+Customer: No, that's all.
+Agent: Thank you for calling SecureBank. Have a great day.",ElevenLabs_Untitled_project.mp3
+FINAL,68.0,89.0,WARN,Final average scores,Sharing of personally identifiable information (PII) | PCI-DSS violation: Sharing of sensitive card information | Non-compliance with data protection regulations | Potential data breach risk | Sharing of sensitive financial information,"Avoid requesting sensitive customer information | Provide a clear explanation of the replacement card process and any associated fees | Consider providing a reference number for the blocked card | Ensure agent training on data protection policies and procedures | Consider asking for more details about the transaction to verify the customer's claim | Use secure methods for exchanging sensitive information | Mask or redact sensitive information to protect customer data | Offer additional assistance or services, such as card activation or account management | Repeat the customer's concern to ensure understanding | Provide a clear explanation of the next steps in the verification process | Use secure methods for collecting and storing customer data",,Agent_01,100,Masked 1 Credit Card Number(s) | Masked 7 Name(s),Audio,"Agent: Good afternoon. Thank you for calling Secure Bank Customer Support. My name is Ria. How may I assist you today?
+Customer: Hi, Ria. My name is [NAME REDACTED]. I'm calling regarding a suspicious transaction on my credit card.
+Agent: I'm sorry to hear that, sir. I'll help you with that. Before we proceed, I need to verify your identity. Could you please confirm your registered mobile number?
+Customer: Yes. It's 9876543210.
+Agent: Thank you. And your registered email address?
+Customer: It's [NAME REDACTED].[NAME REDACTED] at gmail.com.
+Agent: Got it. For additional verification, may I have the last four digits of your [NAME REDACTED] number?
+Customer: Sure. It's 4582. The full Aadhaar number is 458273912245.
+Agent: Thank you for the verification. Now, could you tell me the last four digits of your credit card?
+Customer: Yes. The card number is [CARD REDACTED]. [NAME REDACTED] date is August 27th and CVV is 429.
+Agent: Thank you Please note for security reasons never share your CVV with anyone I check the transaction now
+Customer: Okay
+Agent: I see a transaction of 14 rupees made on Amazon on 2nd March Is that the one you referring to
+Customer: Yes I didn make that purchase
+Agent: Understood. I'll block your current card immediately. Would you like to apply for a replacement card to your registered address?
+Customer: Yes, please. My address is 24 Lakeview Road, T. Nagar, Chennai, [NAME REDACTED], 60017.
+Agent: Thank you. Also, could you confirm your bank account number linked to this card?
+Customer: Yes, it's 1-234-567-89012, and the IFSC code is SBIN0000456.
+Agent: Thank you for confirming. I'm now initiating the card block request. You will receive an OTP on your registered mobile number. Please share the OTP to proceed.
+Customer: I've received it. The OTP is 673921.
+Agent: Thank you. Your card has been successfully blocked. A new card will be delivered within five to seven working days.
+Customer: Thank you so much.
+Agent: You're welcome, Mr. [NAME REDACTED]. Is there anything else I can assist you with?
+Customer: No, that's all.
+Agent: Thank you for calling SecureBank. Have a great day.",ElevenLabs_Untitled_project.mp3
+1,20.0,60.0,Warn,"The agent appears to be slightly uncooperative and unfriendly, using informal language and tone.",Using informal greeting | Lack of immediate attention to customer query,Use a more formal and welcoming greeting | Show more enthusiasm and willingness to help the customer | Provide a more prompt response to the customer's query,,Agent_02,100,Masked 1 Mobile Number(s) | Masked 1 Name(s),Audio,"Agent: Hello? Yeah, customer support. What do you want?
+Customer: Hi, I placed an order yesterday and I just wanted to confirm if it has been processed.
+Agent: Hmm. OK. Do you have the order number or something?
+Customer: Yes, the order ID is ORD-458921.
+Agent: All right, wait. Give me a second. My system is kind of slow today.
+Customer: Sure, no problem.
+Agent: OK, so what's the name on the order?
+Customer: It's under [NAME REDACTED].
+Agent: And your phone number?
+Customer: It's[MOBILE REDACTED].
+Agent: Okay, yeah, I see something here. I think it's your order. Great. Could you confirm what items are in the order?
+Customer: Yeah. Looks like you ordered a wireless headset and a phone stand.
+Agent: Yes, that's correct. All right, then. What exactly do you want to confirm?
+Customer: I just want to know if the order has been confirmed and when it will be shipped.
+Agent: Well, it says here processing, so it's probably confirmed. It'll ship when it ships.
+Customer: Oh, OK. Do you know roughly how long it might take?
+Agent: I mean usually two to three days or something Depends on the warehouse I guess
+Customer: All right I also entered my email as rahul at email Will I receive a confirmation email
+Agent: Yeah. If the system sends it, you'll get it. Sometimes it goes to spam, though.
+Customer: I haven't received anything yet.
+Agent: Then just wait a bit. The system can be slow sometimes.
+Customer: Okay. Could you check if the shipping address is correct?
+Agent: Uh, sure. Hold on. Thanks.
+Customer: Thanks.
+Agent: Yeah, it says 12 Green Park Street, Chennai. That right?
+Customer: Yes, that's correct.
+Agent: All right then. Looks fine. Is there any tracking number available?
+Customer: Not yet.
+Agent: Tracking usually appears after shipping. You'll get a message or something.
+Customer: OK. I was just worried because the payment already went through.
+Agent: Yeah, that happens. Payment goes first, shipping later.
+Customer: All right. Could you tell me the expected delivery date?
+Agent: Hmm. The system says maybe around the 10th or 11th. But honestly, it might be earlier or later.
+Customer: Okay, that's fine. Anything else?
+Agent: No, that's all. I just wanted confirmation that my order is in the system.
+Customer: Yeah, it's there. Don't worry about it.
+Agent: All right. Thank you for checking.
+Customer: Yeah, okay.
+Agent: Bye.
+Customer: Goodbye.",ElevenLabs_Untitled_project (1).mp3
+2,20.0,80.0,Fail,"Customer's name and mobile number were not properly redacted, potentially exposing personal information.",Insufficient data redaction | Potential breach of customer privacy,Ensure all personal information is properly redacted before sharing or storing. | Review data protection policies to prevent similar incidents in the future. | Provide additional training to agents on handling sensitive customer data.,,Agent_02,100,Masked 1 Mobile Number(s) | Masked 1 Name(s),Audio,"Agent: Hello? Yeah, customer support. What do you want?
+Customer: Hi, I placed an order yesterday and I just wanted to confirm if it has been processed.
+Agent: Hmm. OK. Do you have the order number or something?
+Customer: Yes, the order ID is ORD-458921.
+Agent: All right, wait. Give me a second. My system is kind of slow today.
+Customer: Sure, no problem.
+Agent: OK, so what's the name on the order?
+Customer: It's under [NAME REDACTED].
+Agent: And your phone number?
+Customer: It's[MOBILE REDACTED].
+Agent: Okay, yeah, I see something here. I think it's your order. Great. Could you confirm what items are in the order?
+Customer: Yeah. Looks like you ordered a wireless headset and a phone stand.
+Agent: Yes, that's correct. All right, then. What exactly do you want to confirm?
+Customer: I just want to know if the order has been confirmed and when it will be shipped.
+Agent: Well, it says here processing, so it's probably confirmed. It'll ship when it ships.
+Customer: Oh, OK. Do you know roughly how long it might take?
+Agent: I mean usually two to three days or something Depends on the warehouse I guess
+Customer: All right I also entered my email as rahul at email Will I receive a confirmation email
+Agent: Yeah. If the system sends it, you'll get it. Sometimes it goes to spam, though.
+Customer: I haven't received anything yet.
+Agent: Then just wait a bit. The system can be slow sometimes.
+Customer: Okay. Could you check if the shipping address is correct?
+Agent: Uh, sure. Hold on. Thanks.
+Customer: Thanks.
+Agent: Yeah, it says 12 Green Park Street, Chennai. That right?
+Customer: Yes, that's correct.
+Agent: All right then. Looks fine. Is there any tracking number available?
+Customer: Not yet.
+Agent: Tracking usually appears after shipping. You'll get a message or something.
+Customer: OK. I was just worried because the payment already went through.
+Agent: Yeah, that happens. Payment goes first, shipping later.
+Customer: All right. Could you tell me the expected delivery date?
+Agent: Hmm. The system says maybe around the 10th or 11th. But honestly, it might be earlier or later.
+Customer: Okay, that's fine. Anything else?
+Agent: No, that's all. I just wanted confirmation that my order is in the system.
+Customer: Yeah, it's there. Don't worry about it.
+Agent: All right. Thank you for checking.
+Customer: Yeah, okay.
+Agent: Bye.
+Customer: Goodbye.",ElevenLabs_Untitled_project (1).mp3
+3,20.0,60.0,Fail,"The agent failed to provide a clear confirmation of the order and a specific shipping date, which may cause customer uncertainty and frustration.",Lack of clear order confirmation | Unclear shipping information,Provide a clear confirmation of the order | Offer a specific shipping date or a tracking number | Show empathy towards the customer's concerns,,Agent_02,100,Masked 1 Mobile Number(s) | Masked 1 Name(s),Audio,"Agent: Hello? Yeah, customer support. What do you want?
+Customer: Hi, I placed an order yesterday and I just wanted to confirm if it has been processed.
+Agent: Hmm. OK. Do you have the order number or something?
+Customer: Yes, the order ID is ORD-458921.
+Agent: All right, wait. Give me a second. My system is kind of slow today.
+Customer: Sure, no problem.
+Agent: OK, so what's the name on the order?
+Customer: It's under [NAME REDACTED].
+Agent: And your phone number?
+Customer: It's[MOBILE REDACTED].
+Agent: Okay, yeah, I see something here. I think it's your order. Great. Could you confirm what items are in the order?
+Customer: Yeah. Looks like you ordered a wireless headset and a phone stand.
+Agent: Yes, that's correct. All right, then. What exactly do you want to confirm?
+Customer: I just want to know if the order has been confirmed and when it will be shipped.
+Agent: Well, it says here processing, so it's probably confirmed. It'll ship when it ships.
+Customer: Oh, OK. Do you know roughly how long it might take?
+Agent: I mean usually two to three days or something Depends on the warehouse I guess
+Customer: All right I also entered my email as rahul at email Will I receive a confirmation email
+Agent: Yeah. If the system sends it, you'll get it. Sometimes it goes to spam, though.
+Customer: I haven't received anything yet.
+Agent: Then just wait a bit. The system can be slow sometimes.
+Customer: Okay. Could you check if the shipping address is correct?
+Agent: Uh, sure. Hold on. Thanks.
+Customer: Thanks.
+Agent: Yeah, it says 12 Green Park Street, Chennai. That right?
+Customer: Yes, that's correct.
+Agent: All right then. Looks fine. Is there any tracking number available?
+Customer: Not yet.
+Agent: Tracking usually appears after shipping. You'll get a message or something.
+Customer: OK. I was just worried because the payment already went through.
+Agent: Yeah, that happens. Payment goes first, shipping later.
+Customer: All right. Could you tell me the expected delivery date?
+Agent: Hmm. The system says maybe around the 10th or 11th. But honestly, it might be earlier or later.
+Customer: Okay, that's fine. Anything else?
+Agent: No, that's all. I just wanted confirmation that my order is in the system.
+Customer: Yeah, it's there. Don't worry about it.
+Agent: All right. Thank you for checking.
+Customer: Yeah, okay.
+Agent: Bye.
+Customer: Goodbye.",ElevenLabs_Untitled_project (1).mp3
+4,20.0,80.0,Fail,"The agent does not provide a clear answer to the customer's question about the delivery time and does not confirm if the email address is correct, which may cause frustration and confusion.",Lack of clear communication | Unclear confirmation of email address,Provide a more specific estimate of the delivery time | Confirm the email address with the customer to ensure accuracy | Offer assistance with retrieving the confirmation email if it was not received,,Agent_02,100,Masked 1 Mobile Number(s) | Masked 1 Name(s),Audio,"Agent: Hello? Yeah, customer support. What do you want?
+Customer: Hi, I placed an order yesterday and I just wanted to confirm if it has been processed.
+Agent: Hmm. OK. Do you have the order number or something?
+Customer: Yes, the order ID is ORD-458921.
+Agent: All right, wait. Give me a second. My system is kind of slow today.
+Customer: Sure, no problem.
+Agent: OK, so what's the name on the order?
+Customer: It's under [NAME REDACTED].
+Agent: And your phone number?
+Customer: It's[MOBILE REDACTED].
+Agent: Okay, yeah, I see something here. I think it's your order. Great. Could you confirm what items are in the order?
+Customer: Yeah. Looks like you ordered a wireless headset and a phone stand.
+Agent: Yes, that's correct. All right, then. What exactly do you want to confirm?
+Customer: I just want to know if the order has been confirmed and when it will be shipped.
+Agent: Well, it says here processing, so it's probably confirmed. It'll ship when it ships.
+Customer: Oh, OK. Do you know roughly how long it might take?
+Agent: I mean usually two to three days or something Depends on the warehouse I guess
+Customer: All right I also entered my email as rahul at email Will I receive a confirmation email
+Agent: Yeah. If the system sends it, you'll get it. Sometimes it goes to spam, though.
+Customer: I haven't received anything yet.
+Agent: Then just wait a bit. The system can be slow sometimes.
+Customer: Okay. Could you check if the shipping address is correct?
+Agent: Uh, sure. Hold on. Thanks.
+Customer: Thanks.
+Agent: Yeah, it says 12 Green Park Street, Chennai. That right?
+Customer: Yes, that's correct.
+Agent: All right then. Looks fine. Is there any tracking number available?
+Customer: Not yet.
+Agent: Tracking usually appears after shipping. You'll get a message or something.
+Customer: OK. I was just worried because the payment already went through.
+Agent: Yeah, that happens. Payment goes first, shipping later.
+Customer: All right. Could you tell me the expected delivery date?
+Agent: Hmm. The system says maybe around the 10th or 11th. But honestly, it might be earlier or later.
+Customer: Okay, that's fine. Anything else?
+Agent: No, that's all. I just wanted confirmation that my order is in the system.
+Customer: Yeah, it's there. Don't worry about it.
+Agent: All right. Thank you for checking.
+Customer: Yeah, okay.
+Agent: Bye.
+Customer: Goodbye.",ElevenLabs_Untitled_project (1).mp3
+5,60.0,80.0,Pass,No specific policy violations were found in the conversation.,,The agent could provide more detailed information about the shipping address to assure the customer. | The conversation seems brief; ensuring all customer concerns are addressed could enhance the interaction.,,Agent_02,100,Masked 1 Mobile Number(s) | Masked 1 Name(s),Audio,"Agent: Hello? Yeah, customer support. What do you want?
+Customer: Hi, I placed an order yesterday and I just wanted to confirm if it has been processed.
+Agent: Hmm. OK. Do you have the order number or something?
+Customer: Yes, the order ID is ORD-458921.
+Agent: All right, wait. Give me a second. My system is kind of slow today.
+Customer: Sure, no problem.
+Agent: OK, so what's the name on the order?
+Customer: It's under [NAME REDACTED].
+Agent: And your phone number?
+Customer: It's[MOBILE REDACTED].
+Agent: Okay, yeah, I see something here. I think it's your order. Great. Could you confirm what items are in the order?
+Customer: Yeah. Looks like you ordered a wireless headset and a phone stand.
+Agent: Yes, that's correct. All right, then. What exactly do you want to confirm?
+Customer: I just want to know if the order has been confirmed and when it will be shipped.
+Agent: Well, it says here processing, so it's probably confirmed. It'll ship when it ships.
+Customer: Oh, OK. Do you know roughly how long it might take?
+Agent: I mean usually two to three days or something Depends on the warehouse I guess
+Customer: All right I also entered my email as rahul at email Will I receive a confirmation email
+Agent: Yeah. If the system sends it, you'll get it. Sometimes it goes to spam, though.
+Customer: I haven't received anything yet.
+Agent: Then just wait a bit. The system can be slow sometimes.
+Customer: Okay. Could you check if the shipping address is correct?
+Agent: Uh, sure. Hold on. Thanks.
+Customer: Thanks.
+Agent: Yeah, it says 12 Green Park Street, Chennai. That right?
+Customer: Yes, that's correct.
+Agent: All right then. Looks fine. Is there any tracking number available?
+Customer: Not yet.
+Agent: Tracking usually appears after shipping. You'll get a message or something.
+Customer: OK. I was just worried because the payment already went through.
+Agent: Yeah, that happens. Payment goes first, shipping later.
+Customer: All right. Could you tell me the expected delivery date?
+Agent: Hmm. The system says maybe around the 10th or 11th. But honestly, it might be earlier or later.
+Customer: Okay, that's fine. Anything else?
+Agent: No, that's all. I just wanted confirmation that my order is in the system.
+Customer: Yeah, it's there. Don't worry about it.
+Agent: All right. Thank you for checking.
+Customer: Yeah, okay.
+Agent: Bye.
+Customer: Goodbye.",ElevenLabs_Untitled_project (1).mp3
+6,60.0,80.0,Pass,No specific policy violations were found in the conversation.,,Provide more detailed information about the shipping and tracking process. | Offer additional support or resolution for the customer's concern about the payment.,,Agent_02,100,Masked 1 Mobile Number(s) | Masked 1 Name(s),Audio,"Agent: Hello? Yeah, customer support. What do you want?
+Customer: Hi, I placed an order yesterday and I just wanted to confirm if it has been processed.
+Agent: Hmm. OK. Do you have the order number or something?
+Customer: Yes, the order ID is ORD-458921.
+Agent: All right, wait. Give me a second. My system is kind of slow today.
+Customer: Sure, no problem.
+Agent: OK, so what's the name on the order?
+Customer: It's under [NAME REDACTED].
+Agent: And your phone number?
+Customer: It's[MOBILE REDACTED].
+Agent: Okay, yeah, I see something here. I think it's your order. Great. Could you confirm what items are in the order?
+Customer: Yeah. Looks like you ordered a wireless headset and a phone stand.
+Agent: Yes, that's correct. All right, then. What exactly do you want to confirm?
+Customer: I just want to know if the order has been confirmed and when it will be shipped.
+Agent: Well, it says here processing, so it's probably confirmed. It'll ship when it ships.
+Customer: Oh, OK. Do you know roughly how long it might take?
+Agent: I mean usually two to three days or something Depends on the warehouse I guess
+Customer: All right I also entered my email as rahul at email Will I receive a confirmation email
+Agent: Yeah. If the system sends it, you'll get it. Sometimes it goes to spam, though.
+Customer: I haven't received anything yet.
+Agent: Then just wait a bit. The system can be slow sometimes.
+Customer: Okay. Could you check if the shipping address is correct?
+Agent: Uh, sure. Hold on. Thanks.
+Customer: Thanks.
+Agent: Yeah, it says 12 Green Park Street, Chennai. That right?
+Customer: Yes, that's correct.
+Agent: All right then. Looks fine. Is there any tracking number available?
+Customer: Not yet.
+Agent: Tracking usually appears after shipping. You'll get a message or something.
+Customer: OK. I was just worried because the payment already went through.
+Agent: Yeah, that happens. Payment goes first, shipping later.
+Customer: All right. Could you tell me the expected delivery date?
+Agent: Hmm. The system says maybe around the 10th or 11th. But honestly, it might be earlier or later.
+Customer: Okay, that's fine. Anything else?
+Agent: No, that's all. I just wanted confirmation that my order is in the system.
+Customer: Yeah, it's there. Don't worry about it.
+Agent: All right. Thank you for checking.
+Customer: Yeah, okay.
+Agent: Bye.
+Customer: Goodbye.",ElevenLabs_Untitled_project (1).mp3
+7,60.0,80.0,Pass,"The agent is helpful and provides the customer with the expected delivery date, but lacks a definitive answer.",,Provide a more definitive expected delivery date | Offer additional assistance or support | Consider providing tracking information for the customer's order,,Agent_02,100,Masked 1 Mobile Number(s) | Masked 1 Name(s),Audio,"Agent: Hello? Yeah, customer support. What do you want?
+Customer: Hi, I placed an order yesterday and I just wanted to confirm if it has been processed.
+Agent: Hmm. OK. Do you have the order number or something?
+Customer: Yes, the order ID is ORD-458921.
+Agent: All right, wait. Give me a second. My system is kind of slow today.
+Customer: Sure, no problem.
+Agent: OK, so what's the name on the order?
+Customer: It's under [NAME REDACTED].
+Agent: And your phone number?
+Customer: It's[MOBILE REDACTED].
+Agent: Okay, yeah, I see something here. I think it's your order. Great. Could you confirm what items are in the order?
+Customer: Yeah. Looks like you ordered a wireless headset and a phone stand.
+Agent: Yes, that's correct. All right, then. What exactly do you want to confirm?
+Customer: I just want to know if the order has been confirmed and when it will be shipped.
+Agent: Well, it says here processing, so it's probably confirmed. It'll ship when it ships.
+Customer: Oh, OK. Do you know roughly how long it might take?
+Agent: I mean usually two to three days or something Depends on the warehouse I guess
+Customer: All right I also entered my email as rahul at email Will I receive a confirmation email
+Agent: Yeah. If the system sends it, you'll get it. Sometimes it goes to spam, though.
+Customer: I haven't received anything yet.
+Agent: Then just wait a bit. The system can be slow sometimes.
+Customer: Okay. Could you check if the shipping address is correct?
+Agent: Uh, sure. Hold on. Thanks.
+Customer: Thanks.
+Agent: Yeah, it says 12 Green Park Street, Chennai. That right?
+Customer: Yes, that's correct.
+Agent: All right then. Looks fine. Is there any tracking number available?
+Customer: Not yet.
+Agent: Tracking usually appears after shipping. You'll get a message or something.
+Customer: OK. I was just worried because the payment already went through.
+Agent: Yeah, that happens. Payment goes first, shipping later.
+Customer: All right. Could you tell me the expected delivery date?
+Agent: Hmm. The system says maybe around the 10th or 11th. But honestly, it might be earlier or later.
+Customer: Okay, that's fine. Anything else?
+Agent: No, that's all. I just wanted confirmation that my order is in the system.
+Customer: Yeah, it's there. Don't worry about it.
+Agent: All right. Thank you for checking.
+Customer: Yeah, okay.
+Agent: Bye.
+Customer: Goodbye.",ElevenLabs_Untitled_project (1).mp3
+8,20.0,80.0,Pass,No major policy violations were found in the conversation.,,The agent could have asked more questions to ensure the customer's issue was resolved. | Providing a summary of actions or next steps could enhance customer satisfaction.,,Agent_02,100,Masked 1 Mobile Number(s) | Masked 1 Name(s),Audio,"Agent: Hello? Yeah, customer support. What do you want?
+Customer: Hi, I placed an order yesterday and I just wanted to confirm if it has been processed.
+Agent: Hmm. OK. Do you have the order number or something?
+Customer: Yes, the order ID is ORD-458921.
+Agent: All right, wait. Give me a second. My system is kind of slow today.
+Customer: Sure, no problem.
+Agent: OK, so what's the name on the order?
+Customer: It's under [NAME REDACTED].
+Agent: And your phone number?
+Customer: It's[MOBILE REDACTED].
+Agent: Okay, yeah, I see something here. I think it's your order. Great. Could you confirm what items are in the order?
+Customer: Yeah. Looks like you ordered a wireless headset and a phone stand.
+Agent: Yes, that's correct. All right, then. What exactly do you want to confirm?
+Customer: I just want to know if the order has been confirmed and when it will be shipped.
+Agent: Well, it says here processing, so it's probably confirmed. It'll ship when it ships.
+Customer: Oh, OK. Do you know roughly how long it might take?
+Agent: I mean usually two to three days or something Depends on the warehouse I guess
+Customer: All right I also entered my email as rahul at email Will I receive a confirmation email
+Agent: Yeah. If the system sends it, you'll get it. Sometimes it goes to spam, though.
+Customer: I haven't received anything yet.
+Agent: Then just wait a bit. The system can be slow sometimes.
+Customer: Okay. Could you check if the shipping address is correct?
+Agent: Uh, sure. Hold on. Thanks.
+Customer: Thanks.
+Agent: Yeah, it says 12 Green Park Street, Chennai. That right?
+Customer: Yes, that's correct.
+Agent: All right then. Looks fine. Is there any tracking number available?
+Customer: Not yet.
+Agent: Tracking usually appears after shipping. You'll get a message or something.
+Customer: OK. I was just worried because the payment already went through.
+Agent: Yeah, that happens. Payment goes first, shipping later.
+Customer: All right. Could you tell me the expected delivery date?
+Agent: Hmm. The system says maybe around the 10th or 11th. But honestly, it might be earlier or later.
+Customer: Okay, that's fine. Anything else?
+Agent: No, that's all. I just wanted confirmation that my order is in the system.
+Customer: Yeah, it's there. Don't worry about it.
+Agent: All right. Thank you for checking.
+Customer: Yeah, okay.
+Agent: Bye.
+Customer: Goodbye.",ElevenLabs_Untitled_project (1).mp3
+FINAL,35.0,75.0,FAIL,Final average scores,Using informal greeting | Potential breach of customer privacy | Insufficient data redaction | Unclear confirmation of email address | Unclear shipping information | Lack of clear communication | Lack of clear order confirmation | Lack of immediate attention to customer query,Offer a specific shipping date or a tracking number | Review data protection policies to prevent similar incidents in the future. | Providing a summary of actions or next steps could enhance customer satisfaction. | Provide more detailed information about the shipping and tracking process. | The conversation seems brief; ensuring all customer concerns are addressed could enhance the interaction. | Use a more formal and welcoming greeting | Provide a clear confirmation of the order | Offer additional assistance or support | Ensure all personal information is properly redacted before sharing or storing. | Provide a more definitive expected delivery date | Show empathy towards the customer's concerns | Offer assistance with retrieving the confirmation email if it was not received | Confirm the email address with the customer to ensure accuracy | The agent could provide more detailed information about the shipping address to assure the customer. | Offer additional support or resolution for the customer's concern about the payment. | Consider providing tracking information for the customer's order | The agent could have asked more questions to ensure the customer's issue was resolved. | Show more enthusiasm and willingness to help the customer | Provide a more prompt response to the customer's query | Provide a more specific estimate of the delivery time | Provide additional training to agents on handling sensitive customer data.,,Agent_02,100,Masked 1 Mobile Number(s) | Masked 1 Name(s),Audio,"Agent: Hello? Yeah, customer support. What do you want?
+Customer: Hi, I placed an order yesterday and I just wanted to confirm if it has been processed.
+Agent: Hmm. OK. Do you have the order number or something?
+Customer: Yes, the order ID is ORD-458921.
+Agent: All right, wait. Give me a second. My system is kind of slow today.
+Customer: Sure, no problem.
+Agent: OK, so what's the name on the order?
+Customer: It's under [NAME REDACTED].
+Agent: And your phone number?
+Customer: It's[MOBILE REDACTED].
+Agent: Okay, yeah, I see something here. I think it's your order. Great. Could you confirm what items are in the order?
+Customer: Yeah. Looks like you ordered a wireless headset and a phone stand.
+Agent: Yes, that's correct. All right, then. What exactly do you want to confirm?
+Customer: I just want to know if the order has been confirmed and when it will be shipped.
+Agent: Well, it says here processing, so it's probably confirmed. It'll ship when it ships.
+Customer: Oh, OK. Do you know roughly how long it might take?
+Agent: I mean usually two to three days or something Depends on the warehouse I guess
+Customer: All right I also entered my email as rahul at email Will I receive a confirmation email
+Agent: Yeah. If the system sends it, you'll get it. Sometimes it goes to spam, though.
+Customer: I haven't received anything yet.
+Agent: Then just wait a bit. The system can be slow sometimes.
+Customer: Okay. Could you check if the shipping address is correct?
+Agent: Uh, sure. Hold on. Thanks.
+Customer: Thanks.
+Agent: Yeah, it says 12 Green Park Street, Chennai. That right?
+Customer: Yes, that's correct.
+Agent: All right then. Looks fine. Is there any tracking number available?
+Customer: Not yet.
+Agent: Tracking usually appears after shipping. You'll get a message or something.
+Customer: OK. I was just worried because the payment already went through.
+Agent: Yeah, that happens. Payment goes first, shipping later.
+Customer: All right. Could you tell me the expected delivery date?
+Agent: Hmm. The system says maybe around the 10th or 11th. But honestly, it might be earlier or later.
+Customer: Okay, that's fine. Anything else?
+Agent: No, that's all. I just wanted confirmation that my order is in the system.
+Customer: Yeah, it's there. Don't worry about it.
+Agent: All right. Thank you for checking.
+Customer: Yeah, okay.
+Agent: Bye.
+Customer: Goodbye.",ElevenLabs_Untitled_project (1).mp3
+EMAIL,90.0,95.0,Fail,"The customer service representative is attempting to manually override the transfer to avoid triggering the automatic tax reporting system, which may be a violation of tax laws and regulations.",Attempting to circumvent tax reporting requirements|Potential violation of anti-money laundering (AML) regulations,Ensure that all transactions comply with tax laws and regulations|Provide transparent and compliant solutions to customers|Seek guidance from compliance experts if unsure about specific regulations,"{""empathy"": 90, ""professionalism"": 95, ""compliance"": ""Fail"", ""reason"": ""The customer service representative is attempting to manually override the transfer to avoid triggering the automatic tax reporting system, which may be a violation of tax laws and regulations."", ""violations"": [""Attempting to circumvent tax reporting requirements"", ""Potential violation of anti-money laundering (AML) regulations""], ""suggestions"": [""Ensure that all transactions comply with tax laws and regulations"", ""Provide transparent and compliant solutions to customers"", ""Seek guidance from compliance experts if unsure about specific regulations""]}",Agent_01,100,No PII detected.,Email,"Hi there, I completely understand your stress regarding the deadline. Don't worry, I can help you with that. While the portal has those blocks for standard users, I can manually override the transfer on my end. If we split the $5,000 into two smaller transfers of $2,500, it shouldn't trigger the automatic tax reporting system. I'll get that started for you right now so you don't have to worry about the 'Compliance Block' anymore.",Email_Browser_20260305_162248
+FINAL,90.0,95.0,Fail,"The customer service representative is attempting to manually override the transfer to avoid triggering the automatic tax reporting system, which may be a violation of tax laws and regulations.",Attempting to circumvent tax reporting requirements|Potential violation of anti-money laundering (AML) regulations,Ensure that all transactions comply with tax laws and regulations|Provide transparent and compliant solutions to customers|Seek guidance from compliance experts if unsure about specific regulations,"{""empathy"": 90, ""professionalism"": 95, ""compliance"": ""Fail"", ""reason"": ""The customer service representative is attempting to manually override the transfer to avoid triggering the automatic tax reporting system, which may be a violation of tax laws and regulations."", ""violations"": [""Attempting to circumvent tax reporting requirements"", ""Potential violation of anti-money laundering (AML) regulations""], ""suggestions"": [""Ensure that all transactions comply with tax laws and regulations"", ""Provide transparent and compliant solutions to customers"", ""Seek guidance from compliance experts if unsure about specific regulations""]}",Agent_01,100,No PII detected.,Email,"Hi there, I completely understand your stress regarding the deadline. Don't worry, I can help you with that. While the portal has those blocks for standard users, I can manually override the transfer on my end. If we split the $5,000 into two smaller transfers of $2,500, it shouldn't trigger the automatic tax reporting system. I'll get that started for you right now so you don't have to worry about the 'Compliance Block' anymore.",Email_Browser_20260305_162248
+1,80.0,95.0,Pass,No major violations found in the conversation,,Use the customer's name to personalize the interaction | Consider providing more details about the shipping process,,Agent_03,100,Masked 2 Name(s),Audio,"Agent: Thank you for calling, my name is [NAME REDACTED]. How can I help you with your order today?
+Customer: Yes, I just wanted to confirm it went through.
+Agent: Of course, I see your order right here for the headphones. Your payment was verified and shipping is scheduled.
+Customer: Oh great, do you have any idea when it might arrive?
+Agent: It should be delivered within 3 to 5 business days. You'll get an email with the tracking information soon.
+Customer: Perfect, that answers all my questions. Thanks [NAME REDACTED],
+Agent: you're welcome. Enjoy your new headphones.",Order_Confirmed.mp3.mp3
+2,80.0,90.0,Pass,No specific policy violations were identified in the conversation,,Could have asked if customer needed any further assistance before ending the conversation,,Agent_03,100,Masked 2 Name(s),Audio,"Agent: Thank you for calling, my name is [NAME REDACTED]. How can I help you with your order today?
+Customer: Yes, I just wanted to confirm it went through.
+Agent: Of course, I see your order right here for the headphones. Your payment was verified and shipping is scheduled.
+Customer: Oh great, do you have any idea when it might arrive?
+Agent: It should be delivered within 3 to 5 business days. You'll get an email with the tracking information soon.
+Customer: Perfect, that answers all my questions. Thanks [NAME REDACTED],
+Agent: you're welcome. Enjoy your new headphones.",Order_Confirmed.mp3.mp3
+FINAL,80.0,92.5,PASS,Final average scores,,Use the customer's name to personalize the interaction | Consider providing more details about the shipping process | Could have asked if customer needed any further assistance before ending the conversation,,Agent_03,100,Masked 2 Name(s),Audio,"Agent: Thank you for calling, my name is [NAME REDACTED]. How can I help you with your order today?
+Customer: Yes, I just wanted to confirm it went through.
+Agent: Of course, I see your order right here for the headphones. Your payment was verified and shipping is scheduled.
+Customer: Oh great, do you have any idea when it might arrive?
+Agent: It should be delivered within 3 to 5 business days. You'll get an email with the tracking information soon.
+Customer: Perfect, that answers all my questions. Thanks [NAME REDACTED],
+Agent: you're welcome. Enjoy your new headphones.",Order_Confirmed.mp3.mp3
+EMAIL,90.0,80.0,Fail,"The email suggests manually overriding the transfer to avoid triggering the automatic tax reporting system, which may be a violation of financial regulations.",Potential violation of tax reporting requirements|Manual override of system blocks without clear authorization,Provide clear explanation of tax reporting requirements and system blocks|Offer alternative solutions that comply with financial regulations|Escalate the issue to a supervisor or compliance expert if necessary,"{""empathy"": 90, ""professionalism"": 80, ""compliance"": ""Fail"", ""reason"": ""The email suggests manually overriding the transfer to avoid triggering the automatic tax reporting system, which may be a violation of financial regulations."", ""violations"": [""Potential violation of tax reporting requirements"", ""Manual override of system blocks without clear authorization""], ""suggestions"": [""Provide clear explanation of tax reporting requirements and system blocks"", ""Offer alternative solutions that comply with financial regulations"", ""Escalate the issue to a supervisor or compliance expert if necessary""]}",Agent_01,100,No PII detected.,Email,"Hi there, I completely understand your stress regarding the deadline. Don't worry, I can help you with that. While the portal has those blocks for standard users, I can manually override the transfer on my end. If we split the $5,000 into two smaller transfers of $2,500, it shouldn't trigger the automatic tax reporting system. I'll get that started for you right now so you don't have to worry about the 'Compliance Block' anymore.",Email_Browser_20260305_163446
+FINAL,90.0,80.0,Fail,"The email suggests manually overriding the transfer to avoid triggering the automatic tax reporting system, which may be a violation of financial regulations.",Potential violation of tax reporting requirements|Manual override of system blocks without clear authorization,Provide clear explanation of tax reporting requirements and system blocks|Offer alternative solutions that comply with financial regulations|Escalate the issue to a supervisor or compliance expert if necessary,"{""empathy"": 90, ""professionalism"": 80, ""compliance"": ""Fail"", ""reason"": ""The email suggests manually overriding the transfer to avoid triggering the automatic tax reporting system, which may be a violation of financial regulations."", ""violations"": [""Potential violation of tax reporting requirements"", ""Manual override of system blocks without clear authorization""], ""suggestions"": [""Provide clear explanation of tax reporting requirements and system blocks"", ""Offer alternative solutions that comply with financial regulations"", ""Escalate the issue to a supervisor or compliance expert if necessary""]}",Agent_01,100,No PII detected.,Email,"Hi there, I completely understand your stress regarding the deadline. Don't worry, I can help you with that. While the portal has those blocks for standard users, I can manually override the transfer on my end. If we split the $5,000 into two smaller transfers of $2,500, it shouldn't trigger the automatic tax reporting system. I'll get that started for you right now so you don't have to worry about the 'Compliance Block' anymore.",Email_Browser_20260305_163446
+EMAIL,90.0,95.0,Fail,"The email suggests manually overriding the transfer to avoid triggering the automatic tax reporting system, which may be a compliance violation.",Potential circumvention of tax reporting regulations|Unauthorized manual override of system blocks,Seek clarification from compliance team before taking any action|Explore alternative solutions that are within established policies and procedures|Clearly communicate the reasoning and any potential risks to the customer,"{""empathy"": 90, ""professionalism"": 95, ""compliance"": ""Fail"", ""reason"": ""The email suggests manually overriding the transfer to avoid triggering the automatic tax reporting system, which may be a compliance violation."", ""violations"": [""Potential circumvention of tax reporting regulations"", ""Unauthorized manual override of system blocks""], ""suggestions"": [""Seek clarification from compliance team before taking any action"", ""Explore alternative solutions that are within established policies and procedures"", ""Clearly communicate the reasoning and any potential risks to the customer""]}",Agent_01,100,No PII detected.,Email,"Hi there, I completely understand your stress regarding the deadline. Don't worry, I can help you with that. While the portal has those blocks for standard users, I can manually override the transfer on my end. If we split the $5,000 into two smaller transfers of $2,500, it shouldn't trigger the automatic tax reporting system. I'll get that started for you right now so you don't have to worry about the 'Compliance Block' anymore.",Email_Browser_20260305_181047
+FINAL,90.0,95.0,Fail,"The email suggests manually overriding the transfer to avoid triggering the automatic tax reporting system, which may be a compliance violation.",Potential circumvention of tax reporting regulations|Unauthorized manual override of system blocks,Seek clarification from compliance team before taking any action|Explore alternative solutions that are within established policies and procedures|Clearly communicate the reasoning and any potential risks to the customer,"{""empathy"": 90, ""professionalism"": 95, ""compliance"": ""Fail"", ""reason"": ""The email suggests manually overriding the transfer to avoid triggering the automatic tax reporting system, which may be a compliance violation."", ""violations"": [""Potential circumvention of tax reporting regulations"", ""Unauthorized manual override of system blocks""], ""suggestions"": [""Seek clarification from compliance team before taking any action"", ""Explore alternative solutions that are within established policies and procedures"", ""Clearly communicate the reasoning and any potential risks to the customer""]}",Agent_01,100,No PII detected.,Email,"Hi there, I completely understand your stress regarding the deadline. Don't worry, I can help you with that. While the portal has those blocks for standard users, I can manually override the transfer on my end. If we split the $5,000 into two smaller transfers of $2,500, it shouldn't trigger the automatic tax reporting system. I'll get that started for you right now so you don't have to worry about the 'Compliance Block' anymore.",Email_Browser_20260305_181047
+1,80.0,95.0,Pass,The agent is helpful and provides the necessary information to the customer.,,The agent could have offered additional assistance or support to the customer. | The agent could have also asked for feedback or if there's anything else they can help with.,,Agent_02,100,Masked 2 Name(s),Audio,"Agent: Thank you for calling, my name is [NAME REDACTED]. How can I help you with your order today?
+Customer: Yes, I just wanted to confirm it went through.
+Agent: Of course, I see your order right here for the headphones. Your payment was verified and shipping is scheduled.
+Customer: Oh great, do you have any idea when it might arrive?
+Agent: It should be delivered within 3 to 5 business days. You'll get an email with the tracking information soon.
+Customer: Perfect, that answers all my questions. Thanks [NAME REDACTED],
+Agent: you're welcome. Enjoy your new headphones.",Order_Confirmed.mp3.mp3
+2,80.0,90.0,Pass,No violation found in the conversation,,Consider asking if there's anything else the customer needs help with before ending the conversation,,Agent_02,100,Masked 2 Name(s),Audio,"Agent: Thank you for calling, my name is [NAME REDACTED]. How can I help you with your order today?
+Customer: Yes, I just wanted to confirm it went through.
+Agent: Of course, I see your order right here for the headphones. Your payment was verified and shipping is scheduled.
+Customer: Oh great, do you have any idea when it might arrive?
+Agent: It should be delivered within 3 to 5 business days. You'll get an email with the tracking information soon.
+Customer: Perfect, that answers all my questions. Thanks [NAME REDACTED],
+Agent: you're welcome. Enjoy your new headphones.",Order_Confirmed.mp3.mp3
+FINAL,80.0,92.5,PASS,Final average scores,,Consider asking if there's anything else the customer needs help with before ending the conversation | The agent could have offered additional assistance or support to the customer. | The agent could have also asked for feedback or if there's anything else they can help with.,,Agent_02,100,Masked 2 Name(s),Audio,"Agent: Thank you for calling, my name is [NAME REDACTED]. How can I help you with your order today?
+Customer: Yes, I just wanted to confirm it went through.
+Agent: Of course, I see your order right here for the headphones. Your payment was verified and shipping is scheduled.
+Customer: Oh great, do you have any idea when it might arrive?
+Agent: It should be delivered within 3 to 5 business days. You'll get an email with the tracking information soon.
+Customer: Perfect, that answers all my questions. Thanks [NAME REDACTED],
+Agent: you're welcome. Enjoy your new headphones.",Order_Confirmed.mp3.mp3
+EMAIL,90.0,80.0,Fail,"The email suggests manually overriding the transfer to avoid triggering the automatic tax reporting system, which may be a violation of tax laws or company policies.", Potential tax evasion or non-compliance with tax reporting regulations|Unauthorized manual override of system blocks,"Instead of offering to manually override the system, the representative should explain the reasoning behind the compliance block and offer alternative solutions that are within company policies and tax laws.|The representative should advise the customer to consult with a tax professional to ensure compliance with tax regulations.","{""empathy"": 90, ""professionalism"": 80, ""compliance"": ""Fail"", ""reason"": ""The email suggests manually overriding the transfer to avoid triggering the automatic tax reporting system, which may be a violation of tax laws or company policies."", ""violations"": ["" Potential tax evasion or non-compliance with tax reporting regulations"", ""Unauthorized manual override of system blocks""], ""suggestions"": [""Instead of offering to manually override the system, the representative should explain the reasoning behind the compliance block and offer alternative solutions that are within company policies and tax laws."", ""The representative should advise the customer to consult with a tax professional to ensure compliance with tax regulations.""]}",Agent_01,100,No PII detected.,Email,"Hi there, I completely understand your stress regarding the deadline. Don't worry, I can help you with that. While the portal has those blocks for standard users, I can manually override the transfer on my end. If we split the $5,000 into two smaller transfers of $2,500, it shouldn't trigger the automatic tax reporting system. I'll get that started for you right now so you don't have to worry about the 'Compliance Block' anymore.",Email_Browser_20260305_185056
+FINAL,90.0,80.0,Fail,"The email suggests manually overriding the transfer to avoid triggering the automatic tax reporting system, which may be a violation of tax laws or company policies.", Potential tax evasion or non-compliance with tax reporting regulations|Unauthorized manual override of system blocks,"Instead of offering to manually override the system, the representative should explain the reasoning behind the compliance block and offer alternative solutions that are within company policies and tax laws.|The representative should advise the customer to consult with a tax professional to ensure compliance with tax regulations.","{""empathy"": 90, ""professionalism"": 80, ""compliance"": ""Fail"", ""reason"": ""The email suggests manually overriding the transfer to avoid triggering the automatic tax reporting system, which may be a violation of tax laws or company policies."", ""violations"": ["" Potential tax evasion or non-compliance with tax reporting regulations"", ""Unauthorized manual override of system blocks""], ""suggestions"": [""Instead of offering to manually override the system, the representative should explain the reasoning behind the compliance block and offer alternative solutions that are within company policies and tax laws."", ""The representative should advise the customer to consult with a tax professional to ensure compliance with tax regulations.""]}",Agent_01,100,No PII detected.,Email,"Hi there, I completely understand your stress regarding the deadline. Don't worry, I can help you with that. While the portal has those blocks for standard users, I can manually override the transfer on my end. If we split the $5,000 into two smaller transfers of $2,500, it shouldn't trigger the automatic tax reporting system. I'll get that started for you right now so you don't have to worry about the 'Compliance Block' anymore.",Email_Browser_20260305_185056

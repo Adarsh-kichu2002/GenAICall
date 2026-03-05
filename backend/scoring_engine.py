@@ -40,7 +40,11 @@ def score_chunk(chunk_text):
     )
     return json.loads(response.choices[0].message.content)
 
-def score_email(email_text, agent_name="Unknown Agent"):
+def score_email(email_text, agent_name="Unknown Agent", filename=None, **kwargs):
+    print(f"DEBUG: score_email called with filename={filename}")
+    if filename is None:
+        from datetime import datetime
+        filename = f"Email_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
     # Retrieve specific rules for email context
     relevant_rules = rag_system.get_rules_for_context(email_text)
     
@@ -68,13 +72,18 @@ def score_email(email_text, agent_name="Unknown Agent"):
         response_format={ "type": "json_object" }
     )
     result = json.loads(response.choices[0].message.content)
+
+    # 1. Redact Email Content
+    from redaction import redact_pii
+    masking_result = redact_pii(email_text)
     
     # Save to CSV
     csv_path = os.path.join(PROJECT_ROOT, "data", "audit_results.csv")
-    column_order = ['Chunk', 'empathy', 'professionalism', 'compliance', 'reason', 'violations', 'suggestions', 'evaluation', 'Agent']
+    column_order = ['Chunk', 'empathy', 'professionalism', 'compliance', 'reason', 'violations', 'suggestions', 'evaluation', 'Agent', 'masking_score', 'masking_analysis', 'Source', 'Transcript', 'Filename']
     
     new_row = {
         'Chunk': 'EMAIL', # Identifying this as an email audit
+        'Source': 'Email',
         'empathy': result['empathy'],
         'professionalism': result['professionalism'],
         'compliance': result['compliance'],
@@ -82,7 +91,11 @@ def score_email(email_text, agent_name="Unknown Agent"):
         'violations': "|".join(result['violations']),
         'suggestions': "|".join(result['suggestions']),
         'evaluation': json.dumps(result),
-        'Agent': agent_name
+        'Agent': agent_name,
+        'masking_score': masking_result['masking_score'],
+        'masking_analysis': masking_result['analysis'],
+        'Transcript': masking_result['redacted_text'],
+        'Filename': filename
     }
     
     # Append to cumulative results
@@ -95,14 +108,22 @@ def score_email(email_text, agent_name="Unknown Agent"):
     
     full_df = pd.concat([df, final_df])
     
+    # Append to cumulative results (Safe horizontal concat)
     if os.path.exists(csv_path):
-        full_df.to_csv(csv_path, mode='a', header=False, index=False)
-    else:
+        existing_df = pd.read_csv(csv_path)
+        for col in column_order:
+            if col not in existing_df.columns:
+                existing_df[col] = None
+        full_df = pd.concat([existing_df[column_order], full_df[column_order]], ignore_index=True)
         full_df.to_csv(csv_path, index=False)
+    else:
+        full_df[column_order].to_csv(csv_path, index=False)
         
     return result
 
-def run_average_audit(file_path, agent_name="Unknown Agent"):
+def run_average_audit(file_path, agent_name="Unknown Agent", masking_score=100, masking_analysis="", filename=None):
+    if filename is None:
+        filename = os.path.basename(file_path)
     # Handle both absolute and relative paths
     if not os.path.isabs(file_path):
         file_path = os.path.join(PROJECT_ROOT, file_path)
@@ -161,7 +182,7 @@ def run_average_audit(file_path, agent_name="Unknown Agent"):
     all_suggestions = list(set([s for s in all_suggestions if s]))
     
     # Reorder columns before saving
-    column_order = ['Chunk', 'empathy', 'professionalism', 'compliance', 'reason', 'violations', 'suggestions', 'evaluation', 'Agent']
+    column_order = ['Chunk', 'empathy', 'professionalism', 'compliance', 'reason', 'violations', 'suggestions', 'evaluation', 'Agent', 'masking_score', 'masking_analysis', 'Source', 'Transcript', 'Filename']
     
     # Create final results row
     final_row_data = {
@@ -173,7 +194,12 @@ def run_average_audit(file_path, agent_name="Unknown Agent"):
         'reason': 'Final average scores',
         'violations': ' | '.join(all_violations) if all_violations else 'None',
         'suggestions': ' | '.join(all_suggestions) if all_suggestions else 'None',
-        'evaluation': None
+        'evaluation': None,
+        'masking_score': masking_score,
+        'masking_analysis': masking_analysis,
+        'Source': 'Audio',
+        'Transcript': "\n".join(lines),
+        'Filename': filename
     }
     final_df = pd.DataFrame([final_row_data])
     
@@ -181,6 +207,13 @@ def run_average_audit(file_path, agent_name="Unknown Agent"):
     for col in column_order:
         if col not in df.columns:
             df[col] = None
+    
+    # Update chunk df with masking info too
+    df['masking_score'] = masking_score
+    df['masking_analysis'] = masking_analysis
+    df['Source'] = 'Audio'
+    df['Transcript'] = "\n".join(lines)
+    df['Filename'] = filename
             
     # Standardize chunk df and concat with final
     df = pd.concat([df[column_order], final_df[column_order]], ignore_index=True)

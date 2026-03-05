@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-def transcribe_audio(audio_path):
+def transcribe_audio(audio_path, language=None):
     if not os.path.exists(audio_path):
         raise FileNotFoundError(f"Audio file not found: {audio_path}")
     
@@ -15,13 +15,18 @@ def transcribe_audio(audio_path):
     client = Groq(api_key=api_key)
     
     try:
-        print(f"Transcribing {audio_path} via Groq Cloud... this will be much faster.")
+        print(f"Transcribing {audio_path} via Groq Cloud... (Language: {language if language else 'Auto-detect'})")
         with open(audio_path, "rb") as file:
-            transcription = client.audio.transcriptions.create(
-                file=(os.path.basename(audio_path), file.read()),
-                model="whisper-large-v3",
-                response_format="json"
-            )
+            # Prepare transcription arguments
+            transcription_args = {
+                "file": (os.path.basename(audio_path), file.read()),
+                "model": "whisper-large-v3",
+                "response_format": "json"
+            }
+            if language and language.lower() != "auto-detect":
+                transcription_args["language"] = language.lower()
+                
+            transcription = client.audio.transcriptions.create(**transcription_args)
         return transcription.text
     except Exception as e:
         print(f"Error during cloud transcription: {str(e)}")
