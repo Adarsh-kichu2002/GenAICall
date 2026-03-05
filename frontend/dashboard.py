@@ -9,6 +9,14 @@ import sys
 import json
 import importlib
 
+# Streamlit Cloud Deployment Helper for Playwright
+if os.environ.get("STREAMLIT_RUNTIME_HOST"):
+    try:
+        import subprocess
+        subprocess.run(["playwright", "install", "chromium"], check=True)
+    except Exception as e:
+        st.error(f"Playwright installation failed: {e}")
+
 # Get the project root directory and add to path early
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BACKEND_DIR = os.path.join(PROJECT_ROOT, "backend")

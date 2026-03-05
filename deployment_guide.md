@@ -25,10 +25,7 @@ PINECONE_API_KEY = "your_pinecone_api_key_here"
 ```
 
 ## 4. Playwright Browser Support
-Streamlit Cloud handles `requirements.txt` automatically, but Playwright requires system-level browser binaries. 
-
-> [!NOTE]
-> I have added a `packages.txt` file to your repository root. Streamlit Cloud will see this and automatically install the necessary Linux dependencies for Playwright to run.
+Streamlit Cloud handles `requirements.txt` and `packages.txt` automatically. I have added a `setup.sh` that will attempt to install the Chromium browser binaries on the server.
 
 ## 5. Persistent Storage Warning
 Streamlit Cloud uses a **rebootable file system**. 

@@ -85,6 +85,7 @@ streamlit run frontend/dashboard.py
 - `frontend/`: UI components and dashboard navigation.
 - `backend/`: AI processing, scoring logic, and email extraction scripts.
 - `data/`: Local storage for policies, uploads, and session data.
+- `project_management/`: Agile tracking and team sheets.
 - `requirements.txt`: Full list of project dependencies.
 
 ---
